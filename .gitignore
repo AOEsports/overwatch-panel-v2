@@ -1,3 +1,8 @@
+node_modules/
+extension.js
+*hot-update*
+*.bundle.js*
+
 # Logs
 logs
 *.log
