@@ -1,0 +1,41 @@
+{
+	"$schema": "http://json-schema.org/draft-04/schema#",
+	"type": "object",
+	"additionalProperties": true,
+	"description": "A Team",
+
+	"properties": {
+		"name": {
+			"type": "string",
+			"description": "team name",
+			"default": ""
+		},
+		"players": {
+			"tsType": "Player[]",
+			"description": "players on the team",
+			"default": []
+		},
+		"colors": {
+			"type": "object",
+			"description": "colours related to the team",
+			"properties": {
+				"primary": {
+					"type": "string",
+					"description": "primary team color",
+					"default": ""
+				},
+				"player": {
+					"type": "string",
+					"description": "team player color",
+					"default": ""
+				},
+				"shadow": {
+					"type": "string",
+					"description": "team shadow color",
+					"default": ""
+				}
+			}
+		}
+	},
+	"required": ["name", "players", "colors"]
+}

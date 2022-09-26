@@ -1,5 +1,3 @@
-import type {NodeCG} from '../../../../types/server'
+import type { NodeCG } from "../../../../types/server";
 
-export = (nodecg: NodeCG) => {
-    nodecg.sendMessage("hello");
-}
+export = (nodecg: NodeCG) => {};

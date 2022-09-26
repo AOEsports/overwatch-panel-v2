@@ -2,7 +2,7 @@ import ReactDOM from "react-dom";
 import React from "react";
 import { useOnlyReplicantValue } from "common/useReplicant";
 import { Name } from "./Name";
-
+import { Wrapper } from "common/Wrapper";
 function Graphics() {
 	const name = useOnlyReplicantValue("name", undefined, { defaultValue: "" });
 	return (
@@ -13,4 +13,7 @@ function Graphics() {
 	);
 }
 
-ReactDOM.render(<Graphics />, document.getElementById("root"));
+ReactDOM.render(
+	<Wrapper component={<Graphics />} />,
+	document.getElementById("root")
+);

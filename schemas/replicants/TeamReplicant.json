@@ -1,0 +1,15 @@
+{
+	"$schema": "http://json-schema.org/draft-04/schema#",
+	"type": "object",
+	"additionalProperties": true,
+	"description": "Team Replicant",
+	"properties": {
+		"teams": {
+			"type": "array",
+			"description": "an array of teams.",
+			"tsType": "Team[]",
+			"default:": []
+		}
+	},
+	"required": ["teams"]
+}

@@ -1,0 +1,52 @@
+{
+	"$schema": "http://json-schema.org/draft-04/schema#",
+	"type": "object",
+	"additionalProperties": true,
+	"description": "A match",
+
+	"properties": {
+		"team1": {
+			"tsType": "Team",
+			"description": "team 1",
+			"default": null
+		},
+		"team2": {
+			"tsType": "Team",
+			"description": "team 2",
+			"default": null
+		},
+		"information": {
+			"type": "string",
+			"description": "match information",
+			"default": ""
+		},
+		"team1score": {
+			"type": "integer",
+			"description": "team 1 score",
+			"default": null
+		},
+		"team2score": {
+			"type": "integer",
+			"description": "team 1 score",
+			"default": null
+		},
+		"flipped": {
+			"type": "boolean",
+			"description": "do we flip the teams display?",
+			"default": false
+		},
+		"mapLineup": {
+			"tsType": "MapLineup",
+			"description": "the matches map lineup",
+			"default": {}
+		}
+	},
+	"required": [
+		"team1",
+		"team2",
+		"information",
+		"team1score",
+		"team2score",
+		"flipped"
+	]
+}
