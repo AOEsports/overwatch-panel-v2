@@ -6,6 +6,10 @@
 			"file": "DVa.png"
 		},
 		{
+			"name": "Doomfist",
+			"file": "Doomfist.png"
+		},
+		{
 			"name": "Junkerqueen",
 			"file": "Junkerqueen.png"
 		},
@@ -47,10 +51,6 @@
 			"file": "Bastion.png"
 		},
 		{
-			"name": "Doomfist",
-			"file": "Doomfist.png"
-		},
-		{
 			"name": "Echo",
 			"file": "Echo.png"
 		},
@@ -83,8 +83,8 @@
 			"file": "Reaper.png"
 		},
 		{
-			"name": "Sojurn",
-			"file": "Sojurn.png"
+			"name": "Sojourn",
+			"file": "Sojourn.png"
 		},
 		{
 			"name": "Soldier 76",
@@ -124,6 +124,10 @@
 			"file": "Brigitte.png"
 		},
 		{
+			"name": "Kiriko",
+			"file": "Kiriko.png"
+		},
+		{
 			"name": "Lucio",
 			"file": "Lucio.png"
 		},
@@ -138,9 +142,6 @@
 		{
 			"name": "Zenyatta",
 			"file": "Zenyatta.png"
-		},
-		{
-			"name": "Unknown"
 		}
 	],
 	"allheroes": [
@@ -164,7 +165,7 @@
 		"Mei",
 		"Pharah",
 		"Reaper",
-		"Sojurn",
+		"Sojourn",
 		"Soldier 76",
 		"Sombra",
 		"Symmetra",
@@ -174,6 +175,7 @@
 		"Ana",
 		"Baptiste",
 		"Brigitte",
+		"Kiriko",
 		"Lucio",
 		"Mercy",
 		"Moira",

@@ -26,6 +26,10 @@ export interface Team {
      */
     primary?: string;
     /**
+     * text color
+     */
+    textColor?: string;
+    /**
      * team player color
      */
     player?: string;

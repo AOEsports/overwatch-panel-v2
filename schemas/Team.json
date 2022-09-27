@@ -24,6 +24,11 @@
 					"description": "primary team color",
 					"default": ""
 				},
+				"textColor": {
+					"type": "string",
+					"description": "text color",
+					"default": ""
+				},
 				"player": {
 					"type": "string",
 					"description": "team player color",
