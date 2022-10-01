@@ -32,6 +32,14 @@ export function RosteredPlayer({
 				style={{ paddingTop: "16px" }}
 				divider={<Divider orientation="vertical" flexItem />}
 			>
+				<TextField
+					id="playerName"
+					label="Player ID"
+					variant="outlined"
+					style={{ width: "90px" }}
+					disabled={true}
+					value={`Player ${playerId}`}
+				></TextField>
 				<Select
 					labelId="teamDropdown"
 					onChange={(e) => {
@@ -46,8 +54,8 @@ export function RosteredPlayer({
 					}}
 					placeholder={"Select role"}
 					label={"Select Role"}
-					value={playerData.role}
-					style={{ minWidth: "11%" }}
+					defaultValue={playerData.role}
+					style={{ minWidth: "64px" }}
 					size="small"
 					displayEmpty
 				>
@@ -85,9 +93,10 @@ export function RosteredPlayer({
 				<TextField
 					id="playerName"
 					label="Player Name"
-					variant="filled"
+					variant="outlined"
 					style={{ width: "50%" }}
 					onChange={(e) => (playerData.name = e.target.value)}
+					defaultValue={playerData.name}
 				></TextField>
 				<Select
 					labelId="heroDropdown"
@@ -97,7 +106,7 @@ export function RosteredPlayer({
 					}}
 					placeholder={"Select hero"}
 					label={"Select hero"}
-					value={playerData.hero}
+					defaultValue={playerData.hero}
 					style={{ minWidth: "30%" }}
 					size="small"
 					displayEmpty
@@ -108,10 +117,13 @@ export function RosteredPlayer({
 								<img
 									src={`../assets/headportraits/${hero.file}`}
 									style={{
+										minHeight: "24px",
 										maxHeight: "24px",
+										aspectRatio: "1/ 1",
+										minWidth: "32px",
+										objectFit: "scale-down",
 										paddingRight: "8px",
 										pointerEvents: "none",
-										float: "left",
 									}}
 								/>
 								{hero.name}

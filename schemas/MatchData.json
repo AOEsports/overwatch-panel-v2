@@ -4,9 +4,14 @@
 	"additionalProperties": true,
 	"description": "A match",
 
+	"definitions": {
+		"Team": {
+			"$ref": "Team.json"
+		}
+	},
 	"properties": {
 		"team1": {
-			"tsType": "Team",
+			"$ref": "#/definitions/Team",
 			"description": "team 1",
 			"default": null
 		},
@@ -36,7 +41,7 @@
 			"default": false
 		},
 		"mapLineup": {
-			"tsType": "MapLineup",
+			"$ref": "MapLineup.json",
 			"description": "the matches map lineup",
 			"default": {}
 		}

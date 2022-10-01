@@ -5,22 +5,14 @@
  * and run json-schema-to-typescript to regenerate this file.
  */
 
-import { MapSelection } from "./MapSelection";
+import { MatchData } from "../MatchData";
 /**
- * A Map Lineup
+ * Team Replicant
  */
-export interface MapLineup {
+export interface MatchReplicant {
 	/**
-	 * best of/first to maps
+	 * an array of teams.
 	 */
-	scoreaim: number;
-	/**
-	 * best of or first to
-	 */
-	scoringType: "ft" | "bo";
-	/**
-	 * the selection of maps
-	 */
-	maps: MapSelection[];
+	matches: MatchData[];
 	[k: string]: unknown;
 }

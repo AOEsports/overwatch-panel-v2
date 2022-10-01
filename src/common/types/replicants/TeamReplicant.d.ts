@@ -5,13 +5,14 @@
  * and run json-schema-to-typescript to regenerate this file.
  */
 
+import { Team } from "../Team";
 /**
  * Team Replicant
  */
 export interface TeamReplicant {
-  /**
-   * an array of teams.
-   */
-  teams: Team[];
-  [k: string]: unknown;
+	/**
+	 * an array of teams.
+	 */
+	teams: Team[];
+	[k: string]: unknown;
 }

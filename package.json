@@ -6,7 +6,7 @@
 	"scripts": {
 		"start": "cross-env NODE_ENV=development node startDevServer.js",
 		"build": "cross-env NODE_ENV=production webpack",
-		"schema": "json2ts -i schemas/ -o src/common/types/"
+		"schema": "cd schemas/ && json2ts -i *.json -o \"../src/common/types/\" --declareExternallyReferenced false"
 	},
 	"nodecg": {
 		"mount": [
@@ -15,14 +15,43 @@
 				"endpoint": "assets"
 			}
 		],
+		"assetCategories": [
+			{
+				"name": "teamlogos",
+				"title": "Team Scoreboard Logos",
+				"allowedTypes": [
+					"jpg",
+					"jpeg",
+					"png",
+					"gif"
+				]
+			},
+			{
+				"name": "theme",
+				"title": "Theme and Branding",
+				"allowedTypes": [
+					"jpg",
+					"jpeg",
+					"png",
+					"gif"
+				]
+			}
+		],
 		"compatibleRange": "^1.1.1",
 		"dashboardPanels": [
 			{
-				"name": "sample",
-				"title": "Sample",
-				"width": 2,
-				"file": "dashboard.html",
-				"headerColor": "#525F78"
+				"name": "overlaycontrols",
+				"title": "Overlay Controls",
+				"width": 4,
+				"file": "overlay-controls.html",
+				"headerColor": "#6b54b6"
+			},
+			{
+				"name": "matchmanager",
+				"title": "Match Manager",
+				"width": 6,
+				"file": "match-manager.html",
+				"headerColor": "#6b54b6"
 			},
 			{
 				"name": "Team Manager",
@@ -53,7 +82,6 @@
 		"fork-ts-checker-webpack-plugin": "^6.2.0",
 		"html-webpack-harddisk-plugin": "^2.0.0",
 		"html-webpack-plugin": "^5.3.1",
-		"json-schema-to-typescript": "^10.1.4",
 		"react-refresh": "^0.10.0",
 		"ts-loader": "^8.1.0",
 		"typescript": "^4.2.3",

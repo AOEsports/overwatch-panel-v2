@@ -1,14 +1,15 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { useReplicantValue } from "common/useReplicant";
+import { useOnlyReplicantValue, useReplicantValue } from "common/useReplicant";
 import { Team } from "common/types/Team";
 import { TeamReplicant } from "common/types/replicants/TeamReplicant";
-import Grid from "@mui/material/Grid"; // Grid version 1
 import { MuiColorInput } from "mui-color-input";
 import Alert, { AlertColor } from "@mui/material/Alert";
+import AddIcon from "@mui/icons-material/Add";
+import SaveIcon from "@mui/icons-material/Save";
 import IconButton from "@mui/material/IconButton";
-import Collapse from "@mui/material/Collapse";
 import CloseIcon from "@mui/icons-material/Close";
+import TuneIcon from "@mui/icons-material/Tune";
 import {
 	Box,
 	Button,
@@ -16,54 +17,25 @@ import {
 	Dialog,
 	InputLabel,
 	MenuItem,
-	Modal,
 	Select,
-	SelectChangeEvent,
 	Tab,
 	Tabs,
 	TextField,
 	Typography,
+	SpeedDial,
+	SpeedDialIcon,
+	SpeedDialAction,
+	Grid,
+	Snackbar,
+	CircularProgress,
+	Stack,
+	Divider,
 } from "@mui/material";
 import { useState } from "react";
 import { Wrapper } from "common/Wrapper";
-import { style } from "@mui/system";
-import internal from "stream";
 import { RosteredPlayer } from "./components/RosteredPlayer";
 import { Player } from "common/types/Player";
-import { response } from "express";
-
-interface TabPanelProps {
-	children?: React.ReactNode;
-	index: number;
-	value: number;
-}
-
-function tabProps(index: number) {
-	return {
-		id: `control-tab-${index}`,
-		"aria-controls": `control-tab-${index}`,
-	};
-}
-
-function TabPanel(props: TabPanelProps) {
-	const { children, value, index, ...other } = props;
-
-	return (
-		<div
-			role="tabpanel"
-			hidden={value !== index}
-			id={`simple-tabpanel-${index}`}
-			aria-labelledby={`simple-tab-${index}`}
-			{...other}
-		>
-			{value === index && (
-				<Box sx={{ p: 3 }}>
-					<Typography>{children}</Typography>
-				</Box>
-			)}
-		</div>
-	);
-}
+import TabPanel, { tabProps } from "./components/TabPanel";
 
 function pullHeroData(method: Function) {
 	return fetch("../assets/data/heroes.json")
@@ -85,9 +57,11 @@ function TeamManager() {
 		{ defaultValue: { teams: [] as Team[] } as TeamReplicant }
 	) as [TeamReplicant, Function];
 
-	if (!teams) return <></>;
-	const [currentTab, setCurrentTab] = useState(0) as [number, Function];
+	const teamIcons = useOnlyReplicantValue<object>(
+		"assets:teamlogos"
+	) as object;
 
+	const [currentTab, setCurrentTab] = useState(0) as [number, Function];
 	const [currentTeam, setCurrentTeam] = useState() as [Team, Function];
 	const [currentTeamOriginal, setCurrentTeamOriginal] = useState(
 		{} as Team
@@ -107,31 +81,46 @@ function TeamManager() {
 		open: false,
 	}) as [{ type: AlertColor; message: string; open: boolean }, Function];
 
+	if (!teams || !teamIcons)
+		return (
+			<>
+				<CircularProgress color="inherit" />
+			</>
+		);
+	console.log(teamIcons);
+	const actions = [
+		{
+			icon: <AddIcon />,
+			name: "New Team",
+			disabled: false,
+			onClick: (event: React.MouseEvent) => {
+				setNewTeamName("");
+				setNewTeamModalOpen(true);
+			},
+		},
+		{
+			icon: <SaveIcon />,
+			name: "Save",
+			disabled: !currentTeam,
+			onClick: (event: React.MouseEvent) => {
+				Object.keys(currentTeam).forEach((key) => {
+					currentTeamOriginal[key] = currentTeam[key];
+				});
+				setTeams({
+					teams: [...(teams.teams || [])],
+				});
+
+				setNotificationData({
+					open: true,
+					type: "success",
+					message: `Team "${currentTeam.name}" has been successfully saved`,
+				});
+			},
+		},
+	];
+
 	return (
 		<>
-			<Collapse in={notificationData.open}>
-				<Alert
-					action={
-						<IconButton
-							aria-label="close"
-							color="inherit"
-							size="small"
-							onClick={() => {
-								setNotificationData({
-									...notificationData,
-									open: false,
-								});
-							}}
-						>
-							<CloseIcon fontSize="inherit" />
-						</IconButton>
-					}
-					sx={{ mb: 2 }}
-					severity={notificationData.type}
-				>
-					{notificationData.message}
-				</Alert>
-			</Collapse>
 			<Grid
 				container
 				spacing={2}
@@ -150,53 +139,50 @@ function TeamManager() {
 							setCurrentTeam(
 								JSON.parse(JSON.stringify(e.target.value))
 							);
-							setCurrentTeamOriginal(e.target.value);
+							setCurrentTeamOriginal(e.target.value as Team);
 							setCurrentTab(0);
 						}}
 						placeholder={"Select Team"}
 						label={"Select Team"}
 						style={{ minWidth: "40%" }}
 					>
-						{teams.teams.map((team) => {
+						{teams.teams.map((team: Team) => {
 							return (
-								<MenuItem value={team}>{team.name}</MenuItem>
+								<MenuItem value={team as any}>
+									{team.name}
+								</MenuItem>
 							);
 						})}
 					</Select>
 				</Grid>
 				<Grid xs={4}>
-					<Button
-						variant="contained"
-						color="success"
-						onClick={() => {
-							setNewTeamName("");
-							setNewTeamModalOpen(true);
+					<Box
+						sx={{
+							zIndex: 3,
 						}}
 					>
-						Create New Team
-					</Button>
-
-					<Button
-						color="info"
-						variant="contained"
-						onClick={() => {
-							Object.keys(currentTeam).forEach((key) => {
-								currentTeamOriginal[key] = currentTeam[key];
-							});
-							setTeams({
-								teams: [...(teams.teams || [])],
-							});
-
-							setNotificationData({
-								open: true,
-								type: "success",
-								message: `Team "${currentTeam.name}" has been successfully saved`,
-							});
-						}}
-						disabled={!currentTeam}
-					>
-						Save Current Team
-					</Button>
+						<SpeedDial
+							ariaLabel="SpeedDial openIcon example"
+							icon={
+								<SpeedDialIcon
+									openIcon={<TuneIcon />}
+									color="primary"
+								/>
+							}
+							direction="left"
+						>
+							{actions
+								.filter((a) => !a.disabled)
+								.map((action) => (
+									<SpeedDialAction
+										key={action.name}
+										icon={action.icon}
+										tooltipTitle={action.name}
+										onClick={(e) => action.onClick(e)}
+									/>
+								))}
+						</SpeedDial>
+					</Box>
 					<Dialog
 						open={newTeamModalOpen}
 						onClose={() => setNewTeamModalOpen(false)}
@@ -241,6 +227,7 @@ function TeamManager() {
 									const newTeam: Team = {
 										name: newTeamName,
 										players: [],
+										icons: {},
 										colors: {
 											primary: "#ffffff",
 											textColor: "#ffffff",
@@ -442,12 +429,98 @@ function TeamManager() {
 							</Grid>
 						</TabPanel>
 						<TabPanel value={currentTab} index={2}>
-							Change the images for the team here
+							<Stack>
+								<InputLabel
+									id="teamIcon"
+									style={{ paddingTop: "8px" }}
+								>
+									Primary Team Icon
+								</InputLabel>
+								<Select
+									labelId="teamDropdown"
+									onChange={(e) => {
+										const test = {
+											...currentTeam,
+											icons: {
+												teamIcon: e.target.value,
+											},
+										};
+										setCurrentTeam(test);
+										console.log(test);
+									}}
+									value={
+										currentTeam && currentTeam.icons
+											? currentTeam.icons.teamIcon
+											: ""
+									}
+									placeholder={"Select Team Icon"}
+									label={"Select Team Icon"}
+									style={{ minWidth: "40%" }}
+								>
+									{Object.values(teamIcons).map(
+										(icon: {
+											base: String;
+											url: string;
+											name: string;
+										}) => {
+											return (
+												<MenuItem value={icon.url}>
+													<img
+														src={icon.url}
+														style={{
+															minHeight: "24px",
+															maxHeight: "24px",
+															aspectRatio: "1/ 1",
+															minWidth: "32px",
+															objectFit:
+																"scale-down",
+															paddingRight: "8px",
+															pointerEvents:
+																"none",
+														}}
+													/>
+													{icon.name}
+												</MenuItem>
+											);
+										}
+									)}
+								</Select>
+							</Stack>
 						</TabPanel>
 					</Grid>{" "}
 					{/* tabs */}
 				</Grid>
 			</div>
+
+			<Snackbar
+				open={notificationData.open}
+				autoHideDuration={6000}
+				onClose={() =>
+					setNotificationData({
+						...notificationData,
+						open: false,
+					})
+				}
+				action={
+					<IconButton
+						aria-label="close"
+						color="inherit"
+						size="small"
+						onClick={() => {
+							setNotificationData({
+								...notificationData,
+								open: false,
+							});
+						}}
+					>
+						<CloseIcon fontSize="inherit" />
+					</IconButton>
+				}
+			>
+				<Alert sx={{ mb: 2 }} severity={notificationData.type}>
+					{notificationData.message}
+				</Alert>
+			</Snackbar>
 		</>
 	);
 }

@@ -3,7 +3,6 @@
 	"type": "object",
 	"additionalProperties": true,
 	"description": "A Team",
-
 	"properties": {
 		"name": {
 			"type": "string",
@@ -11,9 +10,23 @@
 			"default": ""
 		},
 		"players": {
-			"tsType": "Player[]",
+			"type": "array",
+			"items": {
+				"$ref": "Player.json"
+			},
 			"description": "players on the team",
 			"default": []
+		},
+		"icons": {
+			"type": "object",
+			"description": "icons related to the team",
+			"properties": {
+				"teamIcon": {
+					"type": "string",
+					"description": "url of the teams icon",
+					"default": ""
+				}
+			}
 		},
 		"colors": {
 			"type": "object",
@@ -22,25 +35,29 @@
 				"primary": {
 					"type": "string",
 					"description": "primary team color",
-					"default": ""
+					"default": "",
+					"format": "color"
 				},
 				"textColor": {
 					"type": "string",
 					"description": "text color",
-					"default": ""
+					"default": "",
+					"format": "color"
 				},
 				"player": {
 					"type": "string",
 					"description": "team player color",
-					"default": ""
+					"default": "",
+					"format": "color"
 				},
 				"shadow": {
 					"type": "string",
 					"description": "team shadow color",
-					"default": ""
+					"default": "",
+					"format": "color"
 				}
 			}
 		}
 	},
-	"required": ["name", "players", "colors"]
+	"required": ["name", "players", "colors", "icons"]
 }
