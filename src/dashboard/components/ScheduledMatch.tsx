@@ -2,82 +2,189 @@ import {
 	Stack,
 	Divider,
 	TextField,
-	Paper,
-	Chip,
 	Avatar,
 	ButtonGroup,
 	Button,
-	IconButton,
+	Skeleton,
+	Typography,
+	MenuItem,
+	Select,
+	InputLabel,
 } from "@mui/material";
-import { deepOrange } from "@mui/material/colors";
 import { MatchData } from "common/types/MatchData";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CheckIcon from "@mui/icons-material/Check";
 import SwapHorizIcon from "@mui/icons-material/SwapHoriz";
+import { MatchReplicant } from "common/types/replicants/MatchReplicant";
+import { DataStorage } from "../../common/types/replicants/DataStorage";
+import { TeamReplicant } from "common/types/replicants/TeamReplicant";
+import { useState } from "react";
 
 export interface ScheduledMatchProps {
-	matchObject: MatchData;
-	currentMatch: boolean;
-	matchNote: String;
-}
-function stringToColor(string: string) {
-	let hash = 0;
-	let i;
-
-	/* eslint-disable no-bitwise */
-	for (i = 0; i < string.length; i += 1) {
-		hash = string.charCodeAt(i) + ((hash << 5) - hash);
-	}
-
-	let color = "#";
-
-	for (i = 0; i < 3; i += 1) {
-		const value = (hash >> (i * 8)) & 0xff;
-		color += `00${value.toString(16)}`.slice(-2);
-	}
-	/* eslint-enable no-bitwise */
-
-	return color;
-}
-
-function stringAvatar(name: string) {
-	return {
-		sx: {
-			bgcolor: stringToColor(name),
-		},
-		children: `${name.split(" ")[0][0]}${name.split(" ")[1][0]}`,
-	};
+	matchData: MatchData;
+	teams: TeamReplicant;
+	dataStorageData: [DataStorage, Function];
 }
 
 export function ScheduledMatch({
-	matchObject,
-	currentMatch,
-	matchNote,
+	matchData,
+	teams,
+	dataStorageData,
 }: ScheduledMatchProps) {
-	if (!matchObject || !matchObject.team1 || !matchObject.team2) return <></>;
+	const [dataStorage, setDataStorage] = dataStorageData;
+	const [key, setKey] = useState(0) as [number, Function];
+
+	if (!matchData || !dataStorageData || !teams)
+		return (
+			<>
+				<Skeleton variant="rounded" width={"100%"} height={70} />
+			</>
+		);
+
+	const currentMatch = dataStorage.currentMatchId == matchData.matchId;
+	const team1 = matchData.team1id
+		? teams.teams.filter((t) => t.teamId == matchData.team1id)[0]
+		: null;
+	const team2 = matchData.team2id
+		? teams.teams.filter((t) => t.teamId == matchData.team2id)[0]
+		: null;
+
+	function getTeamSelect(team1: boolean) {
+		const rand = Math.random();
+		return (
+			<>
+				<Select
+					labelId={`teamDropdown-${rand}`}
+					label={`Select`}
+					variant="outlined"
+					onChange={(e) => {
+						console.log(`Loading team`, e.target.value);
+						if (team1) {
+							if (!matchData.flipped)
+								matchData.team1id = e.target.value as any;
+							else matchData.team2id = e.target.value as any;
+						} else {
+							if (!matchData.flipped)
+								matchData.team2id = e.target.value as any;
+							else matchData.team1id = e.target.value as any;
+						}
+						setTimeout(() => setKey(Math.random()), 100);
+					}}
+					style={{ width: "50%" }}
+					size="small"
+					defaultValue={
+						((!matchData.flipped
+							? team1
+								? matchData.team1id
+								: matchData.team2id
+							: team1
+							? matchData.team2id
+							: matchData.team1id) as any) || "TBD"
+					}
+					value={
+						((!matchData.flipped
+							? team1
+								? matchData.team1id
+								: matchData.team2id
+							: team1
+							? matchData.team2id
+							: matchData.team1id) as any) || "TBD"
+					}
+				>
+					<MenuItem value={"TBD"}>To Be Determined</MenuItem>
+					{teams.teams.map((team) => {
+						return team.icons?.teamIcon ? (
+							<MenuItem value={team.teamId}>
+								<img
+									src={team.icons?.teamIcon}
+									style={{
+										minHeight: "24px",
+										maxHeight: "24px",
+										aspectRatio: "1/ 1",
+										minWidth: "32px",
+										objectFit: "scale-down",
+										paddingRight: "8px",
+										pointerEvents: "none",
+									}}
+								/>
+								{team.name}
+							</MenuItem>
+						) : (
+							<MenuItem value={team.teamId as any}>
+								{team.name}
+							</MenuItem>
+						);
+					})}
+				</Select>
+			</>
+		);
+	}
+
 	return (
 		<>
+			<Divider role="presentation" flexItem key={key}>
+				<ButtonGroup>
+					<TextField
+						id="matchInformation "
+						label="Match Information"
+						variant="outlined"
+						size="small"
+						sx={{ minWidth: "200px" }}
+						onChange={(e) => {
+							matchData.information = e.target.value;
+						}}
+						defaultValue={matchData.information || ""}
+					/>
+					<Button color="error">
+						<DeleteIcon />
+					</Button>
+					<Button
+						color={matchData.flipped ? "info" : "warning"}
+						onClick={() => {
+							matchData.flipped = !matchData.flipped;
+							setTimeout(() => setKey(Math.random()), 100);
+						}}
+					>
+						<SwapHorizIcon
+							sx={
+								matchData.flipped
+									? { transform: "scale(1, -1)" }
+									: {}
+							}
+						/>
+					</Button>
+					<Button
+						color="success"
+						disabled={currentMatch}
+						onClick={() => {
+							setDataStorage({
+								...dataStorage,
+								currentMatchId: matchData.matchId,
+							});
+						}}
+					>
+						<CheckIcon />
+					</Button>
+				</ButtonGroup>
+			</Divider>
 			<Stack
 				direction="row"
 				style={{ paddingTop: "16px", paddingBottom: "16px" }}
 			>
 				<Avatar
 					variant="square"
-					src={matchObject.team1.icons?.teamIcon || ""}
+					src={
+						(!matchData.flipped
+							? team1?.icons?.teamIcon
+							: team2?.icons?.teamIcon) || ""
+					}
+					style={{ pointerEvents: "none", marginRight: "8px" }}
 				>
-					?
+					{(!matchData.flipped
+						? team1?.name.substring(0, 1)
+						: team2?.name.substring(0, 1)) || "?"}
 				</Avatar>
-				<TextField
-					id="team1"
-					label="Team 1"
-					variant="outlined"
-					style={{ width: "50%" }}
-					InputProps={{
-						readOnly: true,
-					}}
-					size="small"
-					value={`${matchObject.team1.name}`}
-				></TextField>
+				{getTeamSelect(true)}
 				<Divider
 					orientation="vertical"
 					flexItem
@@ -85,35 +192,21 @@ export function ScheduledMatch({
 				>
 					VS
 				</Divider>
-				<TextField
-					id="team2"
-					label="Team 2"
-					variant="outlined"
-					style={{ width: "50%" }}
-					size="small"
-					InputProps={{
-						readOnly: true,
-					}}
-					value={matchObject.team2.name}
-				></TextField>
+
+				{getTeamSelect(false)}
 				<Avatar
 					variant="square"
-					src={matchObject.team2.icons?.teamIcon || ""}
+					style={{ pointerEvents: "none", marginLeft: "8px" }}
+					src={
+						(!matchData.flipped
+							? team2?.icons?.teamIcon
+							: team1?.icons?.teamIcon) || ""
+					}
 				>
-					?
+					{(!matchData.flipped
+						? team2?.name.substring(0, 1)
+						: team1?.name.substring(0, 1)) || "?"}
 				</Avatar>
-				<Divider orientation="vertical" />
-				<ButtonGroup sx={{ paddingLeft: "8px" }}>
-					<Button color="error">
-						<DeleteIcon />
-					</Button>
-					<Button color="warning">
-						<SwapHorizIcon />
-					</Button>
-					<Button color="success" disabled={currentMatch}>
-						<CheckIcon />
-					</Button>
-				</ButtonGroup>
 			</Stack>
 		</>
 	);

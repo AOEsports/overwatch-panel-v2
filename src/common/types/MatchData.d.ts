@@ -12,15 +12,23 @@ import { MapLineup } from "./MapLineup";
  * A match
  */
 export interface MatchData {
-	team1: Team;
 	/**
-	 * team 2
+	 * Unique match ID
 	 */
-	team2: Team;
+	matchId: number;
+
 	/**
-	 * match information
+	 * the id of team 1. may be null if no team has been set.
 	 */
-	information: string;
+	team1id?: number;
+	/**
+	 * the id of team 2. may be null if no team has been set.
+	 */
+	team2id?: number;
+	/**
+	 * match information. may be null if no information has been set.
+	 */
+	information?: string;
 	/**
 	 * team 1 score
 	 */
@@ -33,6 +41,14 @@ export interface MatchData {
 	 * do we flip the teams display?
 	 */
 	flipped: boolean;
+	/**
+	 * is the match considered completed?
+	 */
+	completed: boolean;
 	mapLineup?: MapLineup;
-	[k: string]: unknown;
+
+	/**
+	 * has this match been marked for deletion
+	 */
+	deleted?: boolean;
 }

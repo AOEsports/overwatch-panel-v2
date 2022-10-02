@@ -36,6 +36,7 @@ import { Wrapper } from "common/Wrapper";
 import { RosteredPlayer } from "./components/RosteredPlayer";
 import { Player } from "common/types/Player";
 import TabPanel, { tabProps } from "./components/TabPanel";
+import { DataStorage } from "common/types/replicants/DataStorage";
 
 function pullHeroData(method: Function) {
 	return fetch("../assets/data/heroes.json")
@@ -56,6 +57,17 @@ function TeamManager() {
 		undefined,
 		{ defaultValue: { teams: [] as Team[] } as TeamReplicant }
 	) as [TeamReplicant, Function];
+	const [dataStorage, setDataStorage] = useReplicantValue<DataStorage>(
+		"DataStorage",
+		undefined,
+		{
+			defaultValue: {
+				currentMatchId: 0,
+				nextMatchId: 0,
+				nextTeamId: 0,
+			} as DataStorage,
+		}
+	) as [DataStorage, Function];
 
 	const teamIcons = useOnlyReplicantValue<object>(
 		"assets:teamlogos"
@@ -81,13 +93,12 @@ function TeamManager() {
 		open: false,
 	}) as [{ type: AlertColor; message: string; open: boolean }, Function];
 
-	if (!teams || !teamIcons)
+	if (!teams || !teamIcons || !dataStorage)
 		return (
 			<>
 				<CircularProgress color="inherit" />
 			</>
 		);
-	console.log(teamIcons);
 	const actions = [
 		{
 			icon: <AddIcon />,
@@ -225,6 +236,7 @@ function TeamManager() {
 								variant="contained"
 								onClick={() => {
 									const newTeam: Team = {
+										teamId: dataStorage.nextTeamId,
 										name: newTeamName,
 										players: [],
 										icons: {},
@@ -235,6 +247,10 @@ function TeamManager() {
 											shadow: "#000000",
 										},
 									};
+									setDataStorage({
+										...dataStorage,
+										nextTeamId: dataStorage.nextTeamId + 1,
+									});
 									setTeams({
 										teams: [
 											...(teams.teams || []),

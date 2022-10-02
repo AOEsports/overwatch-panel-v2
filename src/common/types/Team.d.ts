@@ -12,6 +12,10 @@ import { Player } from "./Player";
  */
 export interface Team {
 	/**
+	 * team id, unique
+	 */
+	teamId: number;
+	/**
 	 * team name
 	 */
 	name: string;
