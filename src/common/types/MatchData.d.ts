@@ -7,6 +7,7 @@
 
 import { Team } from "./Team";
 import { MapLineup } from "./MapLineup";
+import { TextBar } from "./TextBar";
 
 /**
  * A match
@@ -51,4 +52,9 @@ export interface MatchData {
 	 * has this match been marked for deletion
 	 */
 	deleted?: boolean;
+
+	/**
+	 * text that gets rotated through on the top bar
+	 */
+	textBars: TextBar[];
 }

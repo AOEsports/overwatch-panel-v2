@@ -16,6 +16,7 @@ import {
 import { useOnlyReplicantValue } from "../common/useReplicant";
 import { TeamReplicant } from "common/types/replicants/TeamReplicant";
 import { Team } from "common/types/Team";
+import TeamSelectorDropdown from "./components/TeamSelectorDropdown";
 
 function Dashboard() {
 	const teams = useOnlyReplicantValue<TeamReplicant>("TeamList", undefined, {
@@ -73,26 +74,21 @@ function Dashboard() {
 					<h3 style={{ minWidth: "100%" }}>Team Roster Display</h3>
 
 					<Stack direction="row" spacing={2}>
-						<Select
-							labelId="teamDropdown"
-							onChange={(e) => {
-								console.log(`Loading team`, e.target.value);
-							}}
-							placeholder={"Select Team"}
-							label={"Select Team"}
+						<TeamSelectorDropdown
+							teams={teams.teams}
+							label="Select Team"
 							style={{ minWidth: "60%", maxWidth: "60%" }}
-							size="small"
-							defaultValue={"None"}
-						>
-							<MenuItem value={"None"}>None</MenuItem>
-							{teams.teams.map((team) => {
-								return (
-									<MenuItem value={team as any}>
-										{team.name}
-									</MenuItem>
+							onChange={(team, e) => {
+								console.log(
+									`Loading team`,
+									e.target.value,
+									team
 								);
-							})}
-						</Select>
+							}}
+							defaultValue={"Unknown"}
+							showNoneOption={true}
+							noneOptionText={"None"}
+						/>
 
 						<ButtonGroup
 							style={{ minWidth: "40%", maxWidth: "40%" }}

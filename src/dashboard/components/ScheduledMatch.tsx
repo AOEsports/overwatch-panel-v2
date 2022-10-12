@@ -7,18 +7,82 @@ import {
 	Button,
 	Skeleton,
 	Typography,
-	MenuItem,
-	Select,
-	InputLabel,
+	Box,
+	Dialog,
+	styled,
+	Fab,
+	Tooltip,
+	tooltipClasses,
+	TooltipProps,
 } from "@mui/material";
+import ArrowForwardIosSharpIcon from "@mui/icons-material/ArrowForwardIosSharp";
+import MuiAccordion, { AccordionProps } from "@mui/material/Accordion";
+import MuiAccordionSummary, {
+	AccordionSummaryProps,
+} from "@mui/material/AccordionSummary";
+import MuiAccordionDetails from "@mui/material/AccordionDetails";
 import { MatchData } from "common/types/MatchData";
 import DeleteIcon from "@mui/icons-material/Delete";
+import SettingsIcon from "@mui/icons-material/Settings";
 import CheckIcon from "@mui/icons-material/Check";
 import SwapHorizIcon from "@mui/icons-material/SwapHoriz";
-import { MatchReplicant } from "common/types/replicants/MatchReplicant";
+import TaskAltIcon from "@mui/icons-material/TaskAlt";
+import AddIcon from "@mui/icons-material/Add";
 import { DataStorage } from "../../common/types/replicants/DataStorage";
 import { TeamReplicant } from "common/types/replicants/TeamReplicant";
-import { useState } from "react";
+import { Fragment, useState } from "react";
+import { TextBar } from "common/types/TextBar";
+import { TextBarEditable } from "./TextBarEditable";
+import React from "react";
+import TeamSelectorDropdown from "./TeamSelectorDropdown";
+
+const Accordion = styled((props: AccordionProps) => (
+	<MuiAccordion disableGutters elevation={0} square {...props} />
+))(({ theme }) => ({
+	border: `1px solid ${theme.palette.divider}`,
+	"&:not(:last-child)": {
+		borderBottom: 0,
+	},
+	"&:before": {
+		display: "none",
+	},
+}));
+
+const AccordionSummary = styled((props: AccordionSummaryProps) => (
+	<MuiAccordionSummary
+		expandIcon={<ArrowForwardIosSharpIcon sx={{ fontSize: "0.9rem" }} />}
+		{...props}
+	/>
+))(({ theme }) => ({
+	backgroundColor:
+		theme.palette.mode === "dark"
+			? "rgba(255, 255, 255, .05)"
+			: "rgba(0, 0, 0, .03)",
+	flexDirection: "row-reverse",
+	"& .MuiAccordionSummary-expandIconWrapper.Mui-expanded": {
+		transform: "rotate(90deg)",
+	},
+	"& .MuiAccordionSummary-content": {
+		marginLeft: theme.spacing(1),
+	},
+}));
+
+const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
+	padding: theme.spacing(2),
+	borderTop: "1px solid rgba(0, 0, 0, .125)",
+}));
+
+const HtmlTooltip = styled(({ className, ...props }: TooltipProps) => (
+	<Tooltip {...props} classes={{ popper: className }} />
+))(({ theme }) => ({
+	[`& .${tooltipClasses.tooltip}`]: {
+		backgroundColor: "#f5f5f9",
+		color: "rgba(0, 0, 0, 0.87)",
+		maxWidth: 320,
+		fontSize: theme.typography.pxToRem(12),
+		border: "1px solid #dadde9",
+	},
+}));
 
 export interface ScheduledMatchProps {
 	matchData: MatchData;
@@ -33,7 +97,21 @@ export function ScheduledMatch({
 }: ScheduledMatchProps) {
 	const [dataStorage, setDataStorage] = dataStorageData;
 	const [key, setKey] = useState(0) as [number, Function];
+	const [confirmDelete, setConfirmDelete] = useState(false) as [
+		boolean,
+		Function
+	];
+	const [showSettings, setShowSettings] = useState(false) as [
+		boolean,
+		Function
+	];
+	const [currentAccordion, setCurrentAccordion] = useState("") as [
+		string,
+		Function
+	];
 
+	if (!matchData.textBars) matchData.textBars = [] as TextBar[];
+	if (matchData.deleted) return <></>;
 	if (!matchData || !dataStorageData || !teams)
 		return (
 			<>
@@ -50,73 +128,46 @@ export function ScheduledMatch({
 		: null;
 
 	function getTeamSelect(team1: boolean) {
-		const rand = Math.random();
 		return (
-			<>
-				<Select
-					labelId={`teamDropdown-${rand}`}
-					label={`Select`}
-					variant="outlined"
-					onChange={(e) => {
-						console.log(`Loading team`, e.target.value);
+			<TeamSelectorDropdown
+				label="Select Team"
+				teams={teams.teams}
+				style={{ width: "50%" }}
+				showNoneOption={true}
+				noneOptionText={"To Be Determined"}
+				onChange={(team, e) => {
+					if (!team) {
 						if (team1) {
 							if (!matchData.flipped)
-								matchData.team1id = e.target.value as any;
-							else matchData.team2id = e.target.value as any;
+								matchData.team1id = "Unknown" as any;
+							else matchData.team2id = "Unknown" as any;
 						} else {
 							if (!matchData.flipped)
-								matchData.team2id = e.target.value as any;
-							else matchData.team1id = e.target.value as any;
+								matchData.team2id = "Unknown" as any;
+							else matchData.team1id = "Unknown" as any;
 						}
 						setTimeout(() => setKey(Math.random()), 100);
-					}}
-					style={{ width: "50%" }}
-					size="small"
-					defaultValue={
-						((!matchData.flipped
-							? team1
-								? matchData.team1id
-								: matchData.team2id
-							: team1
-							? matchData.team2id
-							: matchData.team1id) as any) || "TBD"
+						return;
 					}
-					value={
-						((!matchData.flipped
-							? team1
-								? matchData.team1id
-								: matchData.team2id
-							: team1
-							? matchData.team2id
-							: matchData.team1id) as any) || "TBD"
+					if (team1) {
+						if (!matchData.flipped) matchData.team1id = team.teamId;
+						else matchData.team2id = team.teamId;
+					} else {
+						if (!matchData.flipped) matchData.team2id = team.teamId;
+						else matchData.team1id = team.teamId;
 					}
-				>
-					<MenuItem value={"TBD"}>To Be Determined</MenuItem>
-					{teams.teams.map((team) => {
-						return team.icons?.teamIcon ? (
-							<MenuItem value={team.teamId}>
-								<img
-									src={team.icons?.teamIcon}
-									style={{
-										minHeight: "24px",
-										maxHeight: "24px",
-										aspectRatio: "1/ 1",
-										minWidth: "32px",
-										objectFit: "scale-down",
-										paddingRight: "8px",
-										pointerEvents: "none",
-									}}
-								/>
-								{team.name}
-							</MenuItem>
-						) : (
-							<MenuItem value={team.teamId as any}>
-								{team.name}
-							</MenuItem>
-						);
-					})}
-				</Select>
-			</>
+					setTimeout(() => setKey(Math.random()), 100);
+				}}
+				value={
+					((!matchData.flipped
+						? team1
+							? matchData.team1id
+							: matchData.team2id
+						: team1
+						? matchData.team2id
+						: matchData.team1id) as any) || "Unknown"
+				}
+			/>
 		);
 	}
 
@@ -124,47 +175,57 @@ export function ScheduledMatch({
 		<>
 			<Divider role="presentation" flexItem key={key}>
 				<ButtonGroup>
-					<TextField
-						id="matchInformation "
-						label="Match Information"
-						variant="outlined"
-						size="small"
-						sx={{ minWidth: "200px" }}
-						onChange={(e) => {
-							matchData.information = e.target.value;
-						}}
-						defaultValue={matchData.information || ""}
-					/>
-					<Button color="error">
-						<DeleteIcon />
-					</Button>
-					<Button
-						color={matchData.flipped ? "info" : "warning"}
-						onClick={() => {
-							matchData.flipped = !matchData.flipped;
-							setTimeout(() => setKey(Math.random()), 100);
-						}}
-					>
-						<SwapHorizIcon
-							sx={
-								matchData.flipped
-									? { transform: "scale(1, -1)" }
-									: {}
-							}
-						/>
-					</Button>
-					<Button
-						color="success"
-						disabled={currentMatch}
-						onClick={() => {
-							setDataStorage({
-								...dataStorage,
-								currentMatchId: matchData.matchId,
-							});
-						}}
-					>
-						<CheckIcon />
-					</Button>
+					<Tooltip title={"Delete"}>
+						<Button
+							color="error"
+							onClick={() => {
+								setConfirmDelete(true);
+							}}
+						>
+							<DeleteIcon />
+						</Button>
+					</Tooltip>
+					<Tooltip title={"Settings"}>
+						<Button
+							color="primary"
+							onClick={() => {
+								setShowSettings(true);
+							}}
+						>
+							<SettingsIcon />
+						</Button>
+					</Tooltip>
+					<Tooltip title={"Swap Sides"}>
+						<Button
+							color={matchData.flipped ? "info" : "warning"}
+							onClick={() => {
+								matchData.flipped = !matchData.flipped;
+								setTimeout(() => setKey(Math.random()), 100);
+							}}
+						>
+							<SwapHorizIcon
+								sx={
+									matchData.flipped
+										? { transform: "scale(1, -1)" }
+										: {}
+								}
+							/>
+						</Button>
+					</Tooltip>
+					<Tooltip title={"Make Current"}>
+						<Button
+							color="success"
+							disabled={currentMatch}
+							onClick={() => {
+								setDataStorage({
+									...dataStorage,
+									currentMatchId: matchData.matchId,
+								});
+							}}
+						>
+							<CheckIcon />
+						</Button>
+					</Tooltip>
 				</ButtonGroup>
 			</Divider>
 			<Stack
@@ -208,6 +269,190 @@ export function ScheduledMatch({
 						: team1?.name.substring(0, 1)) || "?"}
 				</Avatar>
 			</Stack>
+			<>
+				<Dialog
+					open={confirmDelete}
+					onClose={() => setConfirmDelete(false)}
+					aria-labelledby="modal-modal-title"
+				>
+					<Box
+						sx={{
+							width: 600,
+							padding: "32px",
+							overflowX: "hidden",
+						}}
+					>
+						<Typography
+							id="modal-modal-title"
+							variant="h6"
+							component="h2"
+							paddingBottom={"8px"}
+						>
+							Are you sure you want to delete this match?
+						</Typography>
+					</Box>
+					<ButtonGroup variant="contained">
+						<Button
+							color="error"
+							variant="contained"
+							onClick={() => setConfirmDelete(false)}
+							style={{ width: "50%" }}
+						>
+							Cancel
+						</Button>
+						<Button
+							color="success"
+							variant="contained"
+							onClick={() => {
+								matchData.deleted = true;
+								setConfirmDelete(false);
+								setTimeout(() => setKey(Math.random()), 100);
+							}}
+							style={{ width: "50%" }}
+						>
+							Confirm
+						</Button>
+					</ButtonGroup>
+				</Dialog>
+
+				<Dialog
+					open={showSettings}
+					onClose={() => setShowSettings(false)}
+					aria-labelledby="modal-modal-title"
+					sx={{ overflow: "hidden" }}
+				>
+					<Box
+						sx={{
+							width: 600,
+							padding: "16px",
+							overflowX: "hidden",
+						}}
+					>
+						<Typography
+							id="modal-modal-title"
+							variant="h6"
+							component="h2"
+							paddingBottom={"8px"}
+						>
+							Match Settings
+						</Typography>
+						<Accordion
+							expanded={currentAccordion === "matchTitle"}
+							onChange={() => setCurrentAccordion("matchTitle")}
+						>
+							<AccordionSummary
+								aria-controls="matchTitle-content"
+								id="matchTitle-header"
+							>
+								<Typography>Match Title</Typography>
+							</AccordionSummary>
+							<AccordionDetails>
+								<TextField
+									id="matchInformation "
+									label="Match Information"
+									variant="outlined"
+									size="small"
+									sx={{ minWidth: "100%" }}
+									onChange={(e) => {
+										matchData.information = e.target.value;
+									}}
+									defaultValue={matchData.information || ""}
+								/>
+							</AccordionDetails>
+						</Accordion>
+						<Accordion
+							expanded={currentAccordion === "matchTitle2"}
+							onChange={() => setCurrentAccordion("matchTitle2")}
+						>
+							<AccordionSummary
+								aria-controls="matchTitle-content"
+								id="matchTitle-header"
+							>
+								<Typography>Information Bar</Typography>
+							</AccordionSummary>
+							<AccordionDetails>
+								<Box
+									sx={{
+										paddingLeft: "8px",
+										paddingTop: "8px",
+										paddingBottom: "8px",
+									}}
+								>
+									<Stack
+										sx={{
+											paddingLeft: "8px",
+											paddingTop: "8px",
+											paddingBottom: "8px",
+											overflowX: "hidden",
+											maxHeight: "400px",
+											overflowY: "scroll",
+										}}
+									>
+										{matchData.textBars
+											.filter((t) =>
+												t.deleted ? false : true
+											)
+											.map((t) => (
+												<TextBarEditable textBar={t} />
+											))}
+									</Stack>
+									<Fab
+										aria-label="add"
+										color="secondary"
+										size="small"
+										onClick={() => {
+											matchData.textBars.push({
+												text: "New Textbar",
+												liveTime: 1000,
+												deleted: false,
+											} as TextBar);
+											setTimeout(
+												() => setKey(Math.random()),
+												100
+											);
+										}}
+									>
+										<AddIcon />
+									</Fab>
+
+									<HtmlTooltip
+										title={
+											<Fragment>
+												<Typography color="inherit">
+													Information Bar Variables
+												</Typography>
+												<pre>%teamLeft%</pre>
+												<pre>%teamRight%</pre>
+												<pre>%mapNumber%</pre>
+												<pre>%mapFormat%</pre>
+												<pre>%mapName%</pre>
+												<pre>%mapType%</pre>
+												<pre>%teamLeftScore%</pre>
+												<pre>%teamRightScore%</pre>
+											</Fragment>
+										}
+									>
+										<Button>Variables</Button>
+									</HtmlTooltip>
+								</Box>
+							</AccordionDetails>
+						</Accordion>
+					</Box>
+
+					<ButtonGroup variant="contained">
+						<Button
+							color="error"
+							variant="contained"
+							onClick={() => setShowSettings(false)}
+							sx={{
+								width: "100%",
+							}}
+						>
+							Close
+						</Button>
+					</ButtonGroup>
+				</Dialog>
+			</>
 		</>
 	);
 }

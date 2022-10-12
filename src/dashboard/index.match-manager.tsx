@@ -7,8 +7,6 @@ import {
 	BottomNavigation,
 	BottomNavigationAction,
 	CircularProgress,
-	Divider,
-	Grid,
 	Stack,
 } from "@mui/material";
 import { useOnlyReplicantValue } from "../common/useReplicant";
@@ -20,6 +18,7 @@ import { MatchData } from "common/types/MatchData";
 import { DataStorage } from "common/types/replicants/DataStorage";
 import AddIcon from "@mui/icons-material/Add";
 import HideSourceIcon from "@mui/icons-material/HideSource";
+import { TextBar } from "common/types/TextBar";
 
 function MatchManager() {
 	const [matches, setMatches] = useReplicantValue<MatchReplicant>(
@@ -54,61 +53,89 @@ function MatchManager() {
 				<CircularProgress color="inherit" />
 			</>
 		);
-	let shownMatches = matches.matches.filter(
-		(match) => !match.deleted || true
+	let shownMatches = matches.matches.filter((match) =>
+		match.deleted ? false : true
 	);
 	if (hideCompleted)
 		shownMatches = shownMatches.filter((match) => !match.completed);
 	return (
 		<>
-			<Stack
-				spacing={4}
-				direction="column"
-				key={`${matches.matches.length || -1}-matches`}
+			<div
+				style={{
+					minHeight: "600px",
+					maxHeight: "600px",
+					overflow: "hidden",
+				}}
 			>
-				{shownMatches.map((match: MatchData, index: number) => {
-					return (
-						<>
-							<ScheduledMatch
-								key={match.matchId}
-								matchData={match}
-								dataStorageData={[dataStorage, setDataStorage]}
-								teams={teams}
-							/>
-						</>
-					);
-				})}
-			</Stack>
-			<BottomNavigation showLabels>
-				<BottomNavigationAction
-					onClick={() => {
-						const newMatch = {
-							matchId: dataStorage.nextMatchId || 0,
-							team1score: 0,
-							team2score: 0,
-							flipped: false,
-							completed: false,
-							deleted: false,
-						} as MatchData;
-						setDataStorage({
-							...dataStorage,
-							nextMatchId: dataStorage.nextMatchId + 1,
-						});
-						setMatches({
-							matches: [...(matches.matches || []), newMatch],
-						});
+				<Stack
+					spacing={4}
+					direction="column"
+					key={`${matches.matches.length || -1}-matches`}
+					style={{
+						minHeight: "570px",
+						maxHeight: "570px",
+						overflowY: "auto",
 					}}
-					label="New Match"
-					icon={<AddIcon />}
-				/>
-				<BottomNavigationAction
-					onClick={() => {
-						setHideCompleted(!hideCompleted);
+				>
+					{shownMatches.map((match: MatchData, index: number) => {
+						return (
+							<>
+								<ScheduledMatch
+									key={match.matchId}
+									matchData={match}
+									dataStorageData={[
+										dataStorage,
+										setDataStorage,
+									]}
+									teams={teams}
+								/>
+							</>
+						);
+					})}
+				</Stack>
+				<BottomNavigation
+					showLabels
+					sx={{
+						position: "fixed",
+						bottom: "0px",
+						left: "0px",
+						width: "100%",
+						zIndex: "2",
 					}}
-					label={hideCompleted ? "Show Completed" : "Hide Completed"}
-					icon={<HideSourceIcon />}
-				/>
-			</BottomNavigation>
+				>
+					<BottomNavigationAction
+						onClick={() => {
+							const newMatch = {
+								matchId: dataStorage.nextMatchId || 0,
+								team1score: 0,
+								team2score: 0,
+								flipped: false,
+								completed: false,
+								deleted: false,
+								textBars: [] as TextBar[],
+							} as MatchData;
+							setDataStorage({
+								...dataStorage,
+								nextMatchId: dataStorage.nextMatchId + 1,
+							});
+							setMatches({
+								matches: [...(matches.matches || []), newMatch],
+							});
+						}}
+						label="New Match"
+						icon={<AddIcon />}
+					/>
+					<BottomNavigationAction
+						onClick={() => {
+							setHideCompleted(!hideCompleted);
+						}}
+						label={
+							hideCompleted ? "Show Completed" : "Hide Completed"
+						}
+						icon={<HideSourceIcon />}
+					/>
+				</BottomNavigation>
+			</div>
 		</>
 	);
 }
