@@ -26,7 +26,6 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import SettingsIcon from "@mui/icons-material/Settings";
 import CheckIcon from "@mui/icons-material/Check";
 import SwapHorizIcon from "@mui/icons-material/SwapHoriz";
-import TaskAltIcon from "@mui/icons-material/TaskAlt";
 import AddIcon from "@mui/icons-material/Add";
 import { DataStorage } from "../../common/types/replicants/DataStorage";
 import { TeamReplicant } from "common/types/replicants/TeamReplicant";
