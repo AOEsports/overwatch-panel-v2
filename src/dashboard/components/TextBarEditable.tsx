@@ -1,6 +1,6 @@
-import { Stack, Divider, TextField, Button } from "@mui/material";
-import { TextBar } from "common/types/TextBar";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { Button, Divider, Stack, TextField } from "@mui/material";
+import { TextBar } from "common/types/TextBar";
 import { useState } from "react";
 
 export interface TextBarProps {

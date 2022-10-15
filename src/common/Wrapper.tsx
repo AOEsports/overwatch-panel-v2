@@ -1,7 +1,6 @@
-import { ThemeProvider, createTheme, withStyles } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { CSSProperties } from "react";
-import * as colors from "@mui/material/colors";
 
 const theme = createTheme({
 	palette: {

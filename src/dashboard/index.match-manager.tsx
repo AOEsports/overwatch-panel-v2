@@ -1,24 +1,23 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import { useState } from "react";
-import { useReplicantValue } from "common/useReplicant";
-import { Wrapper } from "common/Wrapper";
+import AddIcon from "@mui/icons-material/Add";
+import HideSourceIcon from "@mui/icons-material/HideSource";
 import {
 	BottomNavigation,
 	BottomNavigationAction,
 	CircularProgress,
 	Stack,
 } from "@mui/material";
-import { useOnlyReplicantValue } from "../common/useReplicant";
-import { TeamReplicant } from "common/types/replicants/TeamReplicant";
-import { MatchReplicant } from "common/types/replicants/MatchReplicant";
-import { Team } from "common/types/Team";
-import { ScheduledMatch } from "./components/ScheduledMatch";
 import { MatchData } from "common/types/MatchData";
 import { DataStorage } from "common/types/replicants/DataStorage";
-import AddIcon from "@mui/icons-material/Add";
-import HideSourceIcon from "@mui/icons-material/HideSource";
+import { MatchReplicant } from "common/types/replicants/MatchReplicant";
+import { TeamReplicant } from "common/types/replicants/TeamReplicant";
+import { Team } from "common/types/Team";
 import { TextBar } from "common/types/TextBar";
+import { useReplicantValue } from "common/useReplicant";
+import { Wrapper } from "common/Wrapper";
+import { useState } from "react";
+import ReactDOM from "react-dom";
+import { useOnlyReplicantValue } from "../common/useReplicant";
+import { ScheduledMatch } from "./components/ScheduledMatch";
 
 function MatchManager() {
 	const [matches, setMatches] = useReplicantValue<MatchReplicant>(

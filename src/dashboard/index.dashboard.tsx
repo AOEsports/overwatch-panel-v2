@@ -1,6 +1,5 @@
-import React from "react";
-import ReactDOM from "react-dom";
 import { useReplicantValue } from "common/useReplicant";
+import ReactDOM from "react-dom";
 
 function Dashboard() {
 	const [name, setName] = useReplicantValue("name", undefined, {

@@ -1,5 +1,4 @@
 import { Slide, Stack } from "@mui/material";
-import { styled } from "@mui/system";
 import { Team } from "common/types/Team";
 
 export interface RosterDisplayProps {
@@ -98,7 +97,8 @@ export function RosterDisplay(props: RosterDisplayProps) {
 						>
 							{props.playerName.toUpperCase()}
 						</h1>
-						{/* <span
+						{/* fuck role icons for the time being
+						<span
 							style={{
 								...RoleIcon,
 								backgroundImage: `url(../assets/icons/${props.role}.png)`,
@@ -110,21 +110,3 @@ export function RosterDisplay(props: RosterDisplayProps) {
 		</>
 	);
 }
-/*
-<div style={PlayerDisplay}>
-					<div
-						style={{
-							...HeroDisplay[props.size],
-							backgroundImage:
-								props.size == "small"
-									? `url(../assets/headportraits/${props.hero}.png)`
-									: `url(../assets/portraits/${props.hero}.png)`,
-						}}
-					>
-						<span style={{ ...NamePlate }}>
-							<span style={RosterName}>{props.playerName}</span>
-							<span className={`roleicon ${props.role}`}></span>
-						</span>
-					</div>
-				</div>
-				*/

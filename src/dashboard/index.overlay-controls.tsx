@@ -1,7 +1,3 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import { useReplicantValue } from "common/useReplicant";
-import { Wrapper } from "common/Wrapper";
 import {
 	Button,
 	ButtonGroup,
@@ -9,13 +5,15 @@ import {
 	Grid,
 	Stack,
 } from "@mui/material";
-import { useOnlyReplicantValue } from "../common/useReplicant";
-import { TeamReplicant } from "common/types/replicants/TeamReplicant";
-import { DataStorage } from "common/types/replicants/DataStorage";
-import { Team } from "common/types/Team";
-import TeamSelectorDropdown from "./components/TeamSelectorDropdown";
 import { MatchData } from "common/types/MatchData";
+import { DataStorage } from "common/types/replicants/DataStorage";
 import { MatchReplicant } from "common/types/replicants/MatchReplicant";
+import { TeamReplicant } from "common/types/replicants/TeamReplicant";
+import { Team } from "common/types/Team";
+import { Wrapper } from "common/Wrapper";
+import ReactDOM from "react-dom";
+import { useOnlyReplicantValue } from "../common/useReplicant";
+import TeamSelectorDropdown from "./components/TeamSelectorDropdown";
 
 function Dashboard() {
 	const teams = useOnlyReplicantValue<TeamReplicant>("TeamList", undefined, {

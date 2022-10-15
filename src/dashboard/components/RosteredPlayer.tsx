@@ -1,14 +1,5 @@
-import {
-	Select,
-	MenuItem,
-	Box,
-	SvgIcon,
-	Stack,
-	Divider,
-	TextField,
-} from "@mui/material";
+import { Divider, MenuItem, Select, Stack, TextField } from "@mui/material";
 import { Player } from "common/types/Player";
-import React from "react";
 
 export interface RosteredPlayerProps {
 	playerData: Player;

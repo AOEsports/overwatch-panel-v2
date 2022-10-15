@@ -1,10 +1,10 @@
-import ReactDOM from "react-dom";
-import { Wrapper } from "common/Wrapper";
-import { useState, useEffect, ReactElement } from "react";
-import { RosterDisplay } from "./components/RosterDisplay";
 import { Grid, Slide } from "@mui/material";
 import { Player } from "common/types/Player";
 import { Team } from "common/types/Team";
+import { Wrapper } from "common/Wrapper";
+import { useEffect, useState } from "react";
+import ReactDOM from "react-dom";
+import { RosterDisplay } from "./components/RosterDisplay";
 function Graphics() {
 	const [displayData, setDisplayData] = useState({
 		shown: false,
@@ -16,14 +16,6 @@ function Graphics() {
 	];
 	const [isDisplayed, setDisplayedState] = useState(true) as [
 		boolean,
-		Function
-	];
-	const [topTeamDisplay, setTopTeamDisplay] = useState(<></>) as [
-		ReactElement,
-		Function
-	];
-	const [bottomTeamDisplay, setBottomTeamDisplay] = useState(<></>) as [
-		ReactElement,
 		Function
 	];
 

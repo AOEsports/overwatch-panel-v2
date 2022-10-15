@@ -1,39 +1,38 @@
+import AddIcon from "@mui/icons-material/Add";
+import ArrowForwardIosSharpIcon from "@mui/icons-material/ArrowForwardIosSharp";
+import CheckIcon from "@mui/icons-material/Check";
+import DeleteIcon from "@mui/icons-material/Delete";
+import SettingsIcon from "@mui/icons-material/Settings";
+import SwapHorizIcon from "@mui/icons-material/SwapHoriz";
 import {
-	Stack,
-	Divider,
-	TextField,
 	Avatar,
-	ButtonGroup,
-	Button,
-	Skeleton,
-	Typography,
 	Box,
+	Button,
+	ButtonGroup,
 	Dialog,
-	styled,
+	Divider,
 	Fab,
+	Skeleton,
+	Stack,
+	styled,
+	TextField,
 	Tooltip,
 	tooltipClasses,
 	TooltipProps,
+	Typography,
 } from "@mui/material";
-import ArrowForwardIosSharpIcon from "@mui/icons-material/ArrowForwardIosSharp";
 import MuiAccordion, { AccordionProps } from "@mui/material/Accordion";
+import MuiAccordionDetails from "@mui/material/AccordionDetails";
 import MuiAccordionSummary, {
 	AccordionSummaryProps,
 } from "@mui/material/AccordionSummary";
-import MuiAccordionDetails from "@mui/material/AccordionDetails";
 import { MatchData } from "common/types/MatchData";
-import DeleteIcon from "@mui/icons-material/Delete";
-import SettingsIcon from "@mui/icons-material/Settings";
-import CheckIcon from "@mui/icons-material/Check";
-import SwapHorizIcon from "@mui/icons-material/SwapHoriz";
-import AddIcon from "@mui/icons-material/Add";
-import { DataStorage } from "../../common/types/replicants/DataStorage";
 import { TeamReplicant } from "common/types/replicants/TeamReplicant";
-import { Fragment, useState } from "react";
 import { TextBar } from "common/types/TextBar";
-import { TextBarEditable } from "./TextBarEditable";
-import React from "react";
+import { Fragment, useState } from "react";
+import { DataStorage } from "../../common/types/replicants/DataStorage";
 import TeamSelectorDropdown from "./TeamSelectorDropdown";
+import { TextBarEditable } from "./TextBarEditable";
 
 const Accordion = styled((props: AccordionProps) => (
 	<MuiAccordion disableGutters elevation={0} square {...props} />

@@ -1,41 +1,40 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import { useOnlyReplicantValue, useReplicantValue } from "common/useReplicant";
-import { Team } from "common/types/Team";
-import { TeamReplicant } from "common/types/replicants/TeamReplicant";
-import { MuiColorInput } from "mui-color-input";
-import Alert, { AlertColor } from "@mui/material/Alert";
 import AddIcon from "@mui/icons-material/Add";
-import SaveIcon from "@mui/icons-material/Save";
-import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
+import SaveIcon from "@mui/icons-material/Save";
 import TuneIcon from "@mui/icons-material/Tune";
 import {
 	Box,
 	Button,
 	ButtonGroup,
+	CircularProgress,
 	Dialog,
+	Grid,
 	InputLabel,
 	MenuItem,
 	Select,
+	Snackbar,
+	SpeedDial,
+	SpeedDialAction,
+	SpeedDialIcon,
+	Stack,
 	Tab,
 	Tabs,
 	TextField,
 	Typography,
-	SpeedDial,
-	SpeedDialIcon,
-	SpeedDialAction,
-	Grid,
-	Snackbar,
-	CircularProgress,
-	Stack,
 } from "@mui/material";
-import { useState } from "react";
-import { Wrapper } from "common/Wrapper";
-import { RosteredPlayer } from "./components/RosteredPlayer";
+import Alert, { AlertColor } from "@mui/material/Alert";
+import IconButton from "@mui/material/IconButton";
 import { Player } from "common/types/Player";
-import TabPanel, { tabProps } from "./components/TabPanel";
 import { DataStorage } from "common/types/replicants/DataStorage";
+import { TeamReplicant } from "common/types/replicants/TeamReplicant";
+import { Team } from "common/types/Team";
+import { useOnlyReplicantValue, useReplicantValue } from "common/useReplicant";
+import { Wrapper } from "common/Wrapper";
+import { MuiColorInput } from "mui-color-input";
+import React, { useState } from "react";
+import ReactDOM from "react-dom";
+import { RosteredPlayer } from "./components/RosteredPlayer";
+import TabPanel, { tabProps } from "./components/TabPanel";
 
 function pullHeroData(method: Function) {
 	return fetch("../assets/data/heroes.json")
