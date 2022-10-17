@@ -1,4 +1,4 @@
-import { Grid, Slide } from "@mui/material";
+import { Fade, Grid, Slide } from "@mui/material";
 import { Player } from "common/types/Player";
 import { Team } from "common/types/Team";
 import { Wrapper } from "common/Wrapper";
@@ -108,18 +108,25 @@ function Graphics() {
 			)}
 			{displayData?.team.team2 ? (
 				<>
-					<span
-						style={{
-							color: "white",
-							fontSize: "10rem",
-							position: "fixed",
-							top: "400px",
-							left: "900px",
-							textAlign: "center",
-						}}
+					<Fade
+						in={isDisplayed}
+						timeout={1500}
+						mountOnEnter
+						easing="ease-in-out"
 					>
-						VS
-					</span>
+						<span
+							style={{
+								color: "white",
+								fontSize: "10rem",
+								position: "fixed",
+								top: "400px",
+								left: "900px",
+								textAlign: "center",
+							}}
+						>
+							VS
+						</span>
+					</Fade>
 				</>
 			) : (
 				<></>
@@ -133,16 +140,15 @@ function Graphics() {
 						mountOnEnter
 						easing="ease-in-out"
 					>
-						<h1
+						<div
 							style={{
-								color: "white",
 								paddingLeft: "50px",
-								fontSize: "4.5rem",
 								paddingBottom: "0px",
 								marginBottom: "0px",
-								paddingTop: "10px",
 								marginTop: "0px",
-								display: "inline",
+								display: "inline-block",
+								verticalAlign: "center",
+								float: "left",
 							}}
 						>
 							<img
@@ -152,12 +158,27 @@ function Graphics() {
 								}
 								alt=""
 								style={{
-									width: "128px",
-									paddingRight: "32px",
+									maxWidth: "98px",
+									maxHeight: "98px",
+									display: "inline-block",
+									paddingRight: "30px",
+									alignSelf: "center",
 								}}
 							/>
-							{(displayData.team.team1 as Team).name}
-						</h1>
+							<h1
+								style={{
+									color: "white",
+									fontSize: "5rem",
+									paddingBottom: "0px",
+									marginBottom: "0px",
+									marginTop: "0px",
+									verticalAlign: "center",
+									display: "inline-block",
+								}}
+							>
+								{(displayData.team.team1 as Team).name}
+							</h1>
+						</div>
 					</Slide>
 					<Slide
 						in={isDisplayed}
@@ -166,21 +187,31 @@ function Graphics() {
 						mountOnEnter
 						easing="ease-in-out"
 					>
-						<h1
+						<div
 							style={{
-								color: "white",
-								paddingLeft: "50px",
-								fontSize: "4.5rem",
+								paddingRight: "50px",
 								paddingBottom: "0px",
 								marginBottom: "0px",
-								paddingTop: "10px",
 								marginTop: "0px",
-								textAlign: "right",
 								display: "inline-block",
+								verticalAlign: "center",
 								float: "right",
 							}}
 						>
-							{(displayData.team.team2 as Team).name}
+							<h1
+								style={{
+									color: "white",
+									fontSize: "5rem",
+									paddingBottom: "0px",
+									marginBottom: "0px",
+									marginTop: "0px",
+									textAlign: "right",
+									verticalAlign: "center",
+									display: "inline-block",
+								}}
+							>
+								{(displayData.team.team2 as Team).name}
+							</h1>
 							<img
 								src={
 									(displayData.team.team2 as Team).icons
@@ -188,12 +219,14 @@ function Graphics() {
 								}
 								alt=""
 								style={{
-									width: "128px",
-									paddingLeft: "32px",
-									paddingRight: "32px",
+									maxWidth: "98px",
+									maxHeight: "98px",
+									display: "inline-block",
+									paddingLeft: "30px",
+									alignSelf: "center",
 								}}
 							/>
-						</h1>
+						</div>
 					</Slide>
 					<Grid
 						container
@@ -228,6 +261,8 @@ function Graphics() {
 }
 
 ReactDOM.render(
-	<Wrapper component={<Graphics />} />,
+	<Wrapper>
+		<Graphics />
+	</Wrapper>,
 	document.getElementById("root")
 );

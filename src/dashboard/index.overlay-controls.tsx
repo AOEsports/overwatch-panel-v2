@@ -183,10 +183,8 @@ function Dashboard() {
 }
 
 ReactDOM.render(
-	<Wrapper
-		component={<Dashboard />}
-		isDashboard={true}
-		cssInject={{ padding: "16px" }}
-	/>,
+	<Wrapper isDashboard={true} cssInject={{ padding: "16px" }}>
+		<Dashboard />
+	</Wrapper>,
 	document.getElementById("root")
 );

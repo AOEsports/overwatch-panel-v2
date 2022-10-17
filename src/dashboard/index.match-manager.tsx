@@ -140,10 +140,8 @@ function MatchManager() {
 }
 
 ReactDOM.render(
-	<Wrapper
-		component={<MatchManager />}
-		isDashboard={true}
-		cssInject={{ padding: "16px" }}
-	/>,
+	<Wrapper isDashboard={true} cssInject={{ padding: "16px" }}>
+		<MatchManager />
+	</Wrapper>,
 	document.getElementById("root")
 );

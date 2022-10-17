@@ -540,10 +540,8 @@ function TeamManager() {
 }
 
 ReactDOM.render(
-	<Wrapper
-		component={<TeamManager />}
-		isDashboard={true}
-		cssInject={{ padding: "16px" }}
-	/>,
+	<Wrapper isDashboard={true} cssInject={{ padding: "16px" }}>
+		<TeamManager />
+	</Wrapper>,
 	document.getElementById("root")
 );

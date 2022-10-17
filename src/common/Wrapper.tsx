@@ -1,6 +1,10 @@
 import CssBaseline from "@mui/material/CssBaseline";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { CSSProperties } from "react";
+import { createTheme, Theme, ThemeProvider } from "@mui/material/styles";
+import React from "react";
+import { Component, CSSProperties } from "react";
+import { ThemeStorage } from "./types/replicants/ThemeStorage";
+import { ThemeConfig } from "./types/ThemeConfig";
+import { useOnlyReplicantValue } from "./useReplicant";
 
 const theme = createTheme({
 	palette: {
@@ -33,27 +37,56 @@ const themeDashboard = createTheme({
 });
 
 export interface WrapperProps {
-	component: JSX.Element;
+	children: JSX.Element;
 	isDashboard?: Boolean;
 	cssInject?: CSSProperties;
 }
 
-export function Wrapper({ component, isDashboard, cssInject }: WrapperProps) {
-	return isDashboard ? (
+export function Wrapper({ children, isDashboard, cssInject }: WrapperProps) {
+	if (!isDashboard) {
+		const themes = useOnlyReplicantValue<ThemeStorage>(
+			"ThemeData",
+			undefined,
+			{
+				defaultValue: {
+					currentThemeId: 0,
+					nextThemeId: 0,
+					themes: [] as Theme[],
+				} as ThemeStorage,
+			}
+		) as ThemeStorage;
+		const currentTheme =
+			themes.themes.filter(
+				(theme) => theme.themeId == themes.currentThemeId
+			)[0] ||
+			({ themeName: "Unknown Theme", themeId: -1 } as ThemeConfig);
+		return (
+			<>
+				<div
+					style={{
+						maxWidth: "1920px",
+						maxHeight: "1080px",
+						overflow: "hidden",
+					}}
+				>
+					<ThemeProvider theme={theme}>
+						<CssBaseline />
+						{React.cloneElement(children, {
+							currentTheme: currentTheme,
+						})}
+					</ThemeProvider>
+				</div>
+			</>
+		);
+	}
+	return (
 		<>
 			<div style={isDashboard ? { ...cssInject } : undefined}>
 				<ThemeProvider theme={themeDashboard}>
 					<CssBaseline />
-					{component}
+					{children}
 				</ThemeProvider>
 			</div>
-		</>
-	) : (
-		<>
-			<ThemeProvider theme={theme}>
-				<CssBaseline />
-				{component}
-			</ThemeProvider>
 		</>
 	);
 }
