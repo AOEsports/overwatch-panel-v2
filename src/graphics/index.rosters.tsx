@@ -1,11 +1,12 @@
 import { Fade, Grid, Slide } from "@mui/material";
 import { Player } from "common/types/Player";
 import { Team } from "common/types/Team";
+import { ThemeConfig } from "common/types/ThemeConfig";
 import { Wrapper } from "common/Wrapper";
 import { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import { RosterDisplay } from "./components/RosterDisplay";
-function Graphics() {
+function Graphics(props: { currentTheme?: ThemeConfig }) {
 	const [displayData, setDisplayData] = useState({
 		shown: false,
 		team: { team1: null, team2: null },

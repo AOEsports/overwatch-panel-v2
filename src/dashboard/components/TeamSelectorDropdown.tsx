@@ -1,4 +1,5 @@
-import { MenuItem, Select, SelectChangeEvent } from "@mui/material";
+import { InputLabel, MenuItem, Select, SelectChangeEvent } from "@mui/material";
+import FormControl from "@mui/material/FormControl";
 import { Team } from "common/types/Team";
 import { useState } from "react";
 
@@ -34,54 +35,63 @@ export default function TeamSelectorDropdown(props: TabPanelProps) {
 
 	return (
 		<>
-			<Select
-				labelId={`teamDropdown-${rand}`}
-				label={label ?? "Select Team"}
-				variant={variant ?? "outlined"}
-				onChange={(e) => {
-					setValue(e.target.value);
-					const team = teams.filter(
-						(team) =>
-							(team.teamId as any) == (e.target.value as any)
-					)[0];
-					onChange(team, e);
-				}}
-				style={style}
-				size={size ?? "small"}
-				defaultValue={defaultValue}
-				value={value}
-			>
-				{showNoneOption ? (
-					<MenuItem value={"Unknown"}>
-						{noneOptionText ?? "Unknown"}
-					</MenuItem>
-				) : (
-					<></>
-				)}
-				{teams.map((team) => {
-					return team.icons?.teamIcon ? (
-						<MenuItem value={team.teamId} key={team.teamId}>
-							<img
-								src={team.icons?.teamIcon}
-								style={{
-									minHeight: "24px",
-									maxHeight: "24px",
-									aspectRatio: "1/ 1",
-									minWidth: "32px",
-									objectFit: "scale-down",
-									paddingRight: "8px",
-									pointerEvents: "none",
-								}}
-							/>
-							{team.name}
+			<FormControl fullWidth>
+				<InputLabel id={`teamDropdown-${rand}-label`}>
+					{label ?? "Select Team"}
+				</InputLabel>
+				<Select
+					labelId={`teamDropdown-${rand}-label`}
+					id={`teamDropdown-${rand}`}
+					label={label ?? "Select Team"}
+					variant={variant ?? "outlined"}
+					onChange={(e) => {
+						setValue(e.target.value);
+						const team = teams.filter(
+							(team) =>
+								(team.teamId as any) == (e.target.value as any)
+						)[0];
+						onChange(team, e);
+					}}
+					style={style}
+					size={size ?? "small"}
+					defaultValue={defaultValue}
+					value={value}
+				>
+					{showNoneOption ? (
+						<MenuItem value={"Unknown"}>
+							{noneOptionText ?? "Unknown"}
 						</MenuItem>
 					) : (
-						<MenuItem value={team.teamId as any} key={team.teamId}>
-							{team.name}
-						</MenuItem>
-					);
-				})}
-			</Select>
+						<></>
+					)}
+					{teams.map((team) => {
+						return team.icons?.teamIcon ? (
+							<MenuItem value={team.teamId} key={team.teamId}>
+								<img
+									src={team.icons?.teamIcon}
+									style={{
+										minHeight: "24px",
+										maxHeight: "24px",
+										aspectRatio: "1/ 1",
+										minWidth: "32px",
+										objectFit: "scale-down",
+										paddingRight: "8px",
+										pointerEvents: "none",
+									}}
+								/>
+								{team.name}
+							</MenuItem>
+						) : (
+							<MenuItem
+								value={team.teamId as any}
+								key={team.teamId}
+							>
+								{team.name}
+							</MenuItem>
+						);
+					})}
+				</Select>
+			</FormControl>
 		</>
 	);
 }

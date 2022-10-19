@@ -95,7 +95,6 @@ function Dashboard() {
 						<TeamSelectorDropdown
 							teams={teams.teams}
 							label="Select Team"
-							style={{ minWidth: "60%", maxWidth: "60%" }}
 							onChange={(team, e) => {
 								if (e.target.value == "Unknown") {
 									console.log(`Sending both teams`);

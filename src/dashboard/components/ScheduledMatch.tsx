@@ -130,7 +130,6 @@ export function ScheduledMatch({
 			<TeamSelectorDropdown
 				label="Select Team"
 				teams={teams.teams}
-				style={{ width: "50%" }}
 				showNoneOption={true}
 				noneOptionText={"To Be Determined"}
 				onChange={(team, e) => {

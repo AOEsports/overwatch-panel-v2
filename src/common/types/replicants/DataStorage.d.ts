@@ -18,4 +18,6 @@ export interface DataStorage {
 	 * the ID of the next team to be created
 	 */
 	nextTeamId: number;
+	streamTitle?: string;
+	randomisationKey?: number;
 }

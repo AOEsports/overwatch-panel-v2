@@ -4,22 +4,21 @@
  * DO NOT MODIFY IT BY HAND. Instead, modify the source JSONSchema file,
  * and run json-schema-to-typescript to regenerate this file.
  */
-
 /**
  * A Player
  */
 export interface Player {
-  /**
-   * display name
-   */
-  name: string;
-  /**
-   * displayed hero
-   */
-  hero: string;
-  /**
-   * players role.
-   */
-  role: "dps" | "tank" | "support";
-  [k: string]: unknown;
+	/**
+	 * display name
+	 */
+	name: string;
+	/**
+	 * displayed hero
+	 */
+	hero: string;
+	/**
+	 * players role.
+	 */
+	role: "dps" | "tank" | "support";
+	[k: string]: unknown;
 }

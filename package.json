@@ -48,9 +48,16 @@
 			},
 			{
 				"name": "matchmanager",
-				"title": "Match Manager",
+				"title": "Match List",
 				"width": 6,
 				"file": "match-manager.html",
+				"headerColor": "#6b54b6"
+			},
+			{
+				"name": "mapmanager",
+				"title": "Map Manager",
+				"width": 4,
+				"file": "map-manager.html",
 				"headerColor": "#6b54b6"
 			},
 			{
@@ -69,6 +76,11 @@
 			},
 			{
 				"file": "matches.html",
+				"width": 1920,
+				"height": 1080
+			},
+			{
+				"file": "score.html",
 				"width": 1920,
 				"height": 1080
 			}

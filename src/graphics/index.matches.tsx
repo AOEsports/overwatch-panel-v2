@@ -1,3 +1,4 @@
+import { Slide, Typography } from "@mui/material";
 import { Stack } from "@mui/system";
 import { MatchData } from "common/types/MatchData";
 import { DataStorage } from "common/types/replicants/DataStorage";
@@ -10,7 +11,7 @@ import ReactDOM from "react-dom";
 import { useOnlyReplicantValue } from "../common/useReplicant";
 import { UpcomingMatch } from "./components/UpcomingMatch";
 
-function MatchList(props: { currentTheme: ThemeConfig }) {
+function MatchList(props: { currentTheme?: ThemeConfig }) {
 	const matchList = useOnlyReplicantValue<MatchReplicant>(
 		"MatchList",
 		undefined,
@@ -43,8 +44,34 @@ function MatchList(props: { currentTheme: ThemeConfig }) {
 			<Stack
 				direction={"column"}
 				spacing={2}
-				sx={{ alignItems: "center" }}
+				sx={{ alignItems: "center", paddingTop: "32px" }}
 			>
+				<div
+					style={{
+						clipPath: "polygon(0 0, 100% 0, 100% 100%, 0% 100%)",
+					}}
+				>
+					<Slide
+						direction={"up"}
+						in={true}
+						mountOnEnter
+						timeout={{ enter: 3000, exit: 2000 }}
+						easing="ease-in-out"
+					>
+						<Typography
+							variant="h1"
+							sx={{
+								fontWeight: "800",
+								color:
+									props.currentTheme?.Colors?.Match
+										.InformationText || "white",
+								textShadow: "4px 4px black",
+							}}
+						>
+							AAOL Season 15 - Week 1
+						</Typography>
+					</Slide>
+				</div>
 				{shownMatches.map((match: MatchData, index: number) => (
 					<UpcomingMatch
 						index={index}
@@ -54,6 +81,7 @@ function MatchList(props: { currentTheme: ThemeConfig }) {
 						}
 						matchData={match}
 						teams={teams}
+						theme={props.currentTheme}
 					/>
 				))}
 			</Stack>

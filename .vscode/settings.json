@@ -7,6 +7,9 @@
 		"**/.DS_Store": true,
 		"**/Thumbs.db": true,
 		"*.class": true,
-		"**/node_modules": true
+		"**/node_modules": true,
+		"**/*hot-update.js": true,
+		"**/*hot-update.json": true,
+		"**/*bundle.js": true
 	}
 }

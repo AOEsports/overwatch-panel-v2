@@ -1,5 +1,6 @@
 import AddIcon from "@mui/icons-material/Add";
 import HideSourceIcon from "@mui/icons-material/HideSource";
+import SaveIcon from "@mui/icons-material/Save";
 import {
 	BottomNavigation,
 	BottomNavigationAction,
@@ -132,6 +133,13 @@ function MatchManager() {
 							hideCompleted ? "Show Completed" : "Hide Completed"
 						}
 						icon={<HideSourceIcon />}
+					/>
+					<BottomNavigationAction
+						onClick={() => {
+							setMatches({ ...matches });
+						}}
+						label={"Send Changes to Overlay"}
+						icon={<SaveIcon />}
 					/>
 				</BottomNavigation>
 			</div>

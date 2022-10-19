@@ -1,10 +1,11 @@
 {
 	"gamemodes": [
-		{ "name": "Assault", "file": "Assault.png" },
+		{ "name": "Upcoming", "file": "Upcoming.png" },
 		{ "name": "Escort", "file": "Escort.png" },
 		{ "name": "Hybrid", "file": "Hybrid.png" },
 		{ "name": "Control", "file": "Control.png" },
 		{ "name": "Push", "file": "Push.png" },
+		{ "name": "Assault", "file": "Assault.png" },
 		{ "name": "Arcade", "file": "Numbani.png" }
 	],
 	"allmaps": [
@@ -33,7 +34,7 @@
 			"gamemode": "Escort"
 		},
 		{ "name": "Rialto", "file": "Rialto.png", "gamemode": "Escort" },
-		{ "name": "Route 66", "file": "Route_66.png", "gamemode": "Escort" },
+		{ "name": "Route: 66", "file": "Route_66.png", "gamemode": "Escort" },
 		{
 			"name": "Circuit Royal",
 			"file": "Circuit_Royal.png",
@@ -79,18 +80,14 @@
 			"gamemode": "Push"
 		},
 		{ "name": "Colosseo", "file": "Colosseo.png", "gamemode": "Push" },
+		{ "name": "Esperança", "file": "Esperanca.png", "gamemode": "Push" },
 
+		{ "gamemode": "Upcoming", "name": "Upcoming", "file": "Upcoming.png" },
 		{ "gamemode": "Upcoming", "name": "Assault", "file": "Assault.png" },
 		{ "gamemode": "Upcoming", "name": "Push", "file": "Push.png" },
-		{
-			"gamemode": "Upcoming",
-			"displayedName": "Escort or Hybrid",
-			"name": "EscortHybrid",
-			"file": "HybridEscort.png"
-		},
 		{ "gamemode": "Upcoming", "name": "Escort", "file": "Escort.png" },
 		{ "gamemode": "Upcoming", "name": "Hybrid", "file": "Hybrid.png" },
 		{ "gamemode": "Upcoming", "name": "Control", "file": "Control.png" },
-		{ "gamemode": "Upcoming", "name": "Arcade", "file": "Numbani.png" }
+		{ "gamemode": "Upcoming", "name": "Arcade", "file": "Arcade.png" }
 	]
 }
