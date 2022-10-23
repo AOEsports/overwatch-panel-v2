@@ -332,6 +332,7 @@ function TeamManager() {
 										? currentTeam.colors.primary || "black"
 										: "black"
 								}
+								isAlphaHidden={true}
 								onChange={(e) =>
 									setCurrentTeam({
 										...currentTeam,
@@ -355,6 +356,7 @@ function TeamManager() {
 										? currentTeam.colors.player || "black"
 										: "black"
 								}
+								isAlphaHidden={true}
 								onChange={(e) =>
 									setCurrentTeam({
 										...currentTeam,
@@ -379,6 +381,7 @@ function TeamManager() {
 										  "black"
 										: "black"
 								}
+								isAlphaHidden={true}
 								onChange={(e) =>
 									setCurrentTeam({
 										...currentTeam,
@@ -402,6 +405,7 @@ function TeamManager() {
 										? currentTeam.colors.shadow || "black"
 										: "black"
 								}
+								isAlphaHidden={true}
 								onChange={(e) =>
 									setCurrentTeam({
 										...currentTeam,

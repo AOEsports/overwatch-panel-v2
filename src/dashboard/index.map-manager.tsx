@@ -6,6 +6,7 @@ import {
 	BottomNavigation,
 	BottomNavigationAction,
 	Button,
+	ButtonGroup,
 	Chip,
 	Divider,
 	Input,
@@ -24,6 +25,7 @@ import { Team } from "common/types/Team";
 import { Wrapper } from "common/Wrapper";
 import { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 function pullMapData(method: Function) {
 	return fetch("../assets/data/maps.json")
@@ -126,7 +128,7 @@ function mapEditor(
 	mapInformation: MapSelection,
 	mapIndex: number,
 	selectedMap: { index: number; setSelectedMap: Function },
-	key: Function,
+	updateMap: Function,
 	mapData: any,
 	teams: { team1: Team; team2: Team }
 ) {
@@ -162,7 +164,7 @@ function mapEditor(
 							mapInformation.mapName = parsed.mapName;
 							mapInformation.mapImage = parsed.mapImage;
 							mapInformation.mapIcon = parsed.mapIcon;
-							setTimeout(() => key(Math.random()), 100);
+							updateMap();
 						}}
 					>
 						{mapData.gamemodes.map(
@@ -182,7 +184,7 @@ function mapEditor(
 									<ListSubheader
 										style={{
 											backgroundImage: `url("../assets/icons/${gamemode.file}")`,
-											backgroundSize: "20%",
+											backgroundSize: "15%",
 											backgroundRepeat: "no-repeat",
 											backgroundPosition: "100% 50%",
 										}}
@@ -273,7 +275,7 @@ function mapEditor(
 							mapInformation.team1score = parseInt(
 								e.target.value
 							);
-							setTimeout(() => key(Math.random()), 100);
+							updateMap();
 						}}
 						disableUnderline={true}
 						style={{
@@ -311,7 +313,7 @@ function mapEditor(
 							mapInformation.team2score = parseInt(
 								e.target.value
 							);
-							setTimeout(() => key(Math.random()), 100);
+							updateMap();
 						}}
 						disableUnderline={true}
 						style={{
@@ -351,7 +353,7 @@ function mapEditor(
 						onChange={(e) => {
 							console.log(`changed`, e.target.checked);
 							mapInformation.completed = e.target.checked;
-							setTimeout(() => key(Math.random()), 100);
+							updateMap();
 						}}
 					/>
 				</div>
@@ -368,9 +370,10 @@ function MapManager() {
 	const { state, updateState } = getCurrentMatchWithTeamsAsState();
 	const [mapData, setMapData] = useState() as [any, Function];
 	const { team1, team2, currentMatch } = state;
-	const [selectedMapIndex, setSelectedMapIndex] = useState(
-		currentMatch.mapLineup?.maps ? 0 : -1
-	) as [number, Function];
+	const [selectedMapIndex, setSelectedMapIndex] = useState(-1) as [
+		number,
+		Function
+	];
 	const [key, setKey] = useState(-100);
 	const [autoUpdate, setAutoUpdate] = useState(false);
 	useEffect(() => {
@@ -381,8 +384,34 @@ function MapManager() {
 		window.addEventListener("resize", handleResize);
 		return () => window.removeEventListener("resize", handleResize);
 	}, []);
+
 	if (!state) return <></>;
 	if (!mapData) pullMapData(setMapData);
+	function updateMap(force?: boolean) {
+		let newTeam1Score = 0;
+		let newTeam2Score = 0;
+		currentMatch.mapLineup?.maps.forEach((map: MapSelection) => {
+			if (map.completed) {
+				if ((map.team1score || 0) > (map.team2score || 0))
+					newTeam1Score++;
+				if ((map.team2score || 0) > (map.team1score || 0))
+					newTeam2Score++;
+			}
+		});
+		setTimeout(() => {
+			currentMatch.team1score = newTeam1Score;
+			currentMatch.team2score = newTeam2Score;
+			updateState(
+				{
+					...state,
+					currentMatch,
+				},
+				force || autoUpdate
+			);
+			setKey(Math.random());
+		}, 100);
+	}
+
 	return (
 		<>
 			<div
@@ -442,36 +471,50 @@ function MapManager() {
 								<></>
 							)}
 						</div>
-						<Button
-							variant="contained"
-							onClick={() => {
-								const newDefaultMap: MapSelection = {
-									mapName: "Upcoming",
-									mapGamemode: "Upcoming",
-									mapIcon: "Upcoming.png",
-									mapImage: "Control.png",
-								};
-								if (!currentMatch.mapLineup!.maps)
-									currentMatch.mapLineup!.maps =
-										[] as MapSelection[];
-								currentMatch.mapLineup!.maps.push(
-									newDefaultMap
-								);
-								setSelectedMapIndex(
-									currentMatch.mapLineup!.maps.length - 1
-								);
+						<ButtonGroup>
+							<Button
+								variant="contained"
+								style={{ width: "50%" }}
+								onClick={() => {
+									const newDefaultMap: MapSelection = {
+										mapName: "Upcoming",
+										mapGamemode: "Upcoming",
+										mapIcon: "Upcoming.png",
+										mapImage: "Control.png",
+									};
+									if (!currentMatch.mapLineup!.maps)
+										currentMatch.mapLineup!.maps =
+											[] as MapSelection[];
+									currentMatch.mapLineup!.maps.push(
+										newDefaultMap
+									);
+									setSelectedMapIndex(
+										currentMatch.mapLineup!.maps.length - 1
+									);
 
-								setTimeout(() => setKey(Math.random()), 100);
-							}}
-						>
-							{windowDimensions.width > 555 ? (
-								<>
-									<AddIcon /> Add Map
-								</>
-							) : (
+									setTimeout(
+										() => setKey(Math.random()),
+										100
+									);
+								}}
+							>
 								<AddIcon />
-							)}
-						</Button>
+							</Button>
+							<Button
+								variant="contained"
+								color="error"
+								style={{ width: "50%" }}
+								disabled={selectedMapIndex == -1}
+								onClick={() => {
+									setTimeout(
+										() => setKey(Math.random()),
+										100
+									);
+								}}
+							>
+								<DeleteIcon />
+							</Button>
+						</ButtonGroup>
 					</Stack>
 					<div>
 						<Stack
@@ -507,22 +550,13 @@ function MapManager() {
 									value={currentMatch.team1score || 0}
 									size="small"
 									id="team1Score"
+									readOnly={true}
 									onChange={(e) => {
 										currentMatch.team1score = parseInt(
 											e.target.value
 										);
 
-										setTimeout(
-											() =>
-												updateState(
-													{
-														...state,
-														currentMatch,
-													},
-													autoUpdate
-												),
-											100
-										);
+										updateMap();
 									}}
 									disableUnderline={true}
 									style={{
@@ -530,13 +564,6 @@ function MapManager() {
 										paddingTop: "8px",
 										width: "20%",
 										backgroundColor: "rgba(0, 0, 0, 0.2)",
-									}}
-									inputProps={{
-										step: 1,
-										min: 0,
-										max: 100,
-										type: "number",
-										"aria-labelledby": "team1scorelabel",
 									}}
 								/>
 								<Divider />
@@ -555,21 +582,12 @@ function MapManager() {
 									value={currentMatch.team2score || 0}
 									size="small"
 									id="team2Score"
+									readOnly={true}
 									onChange={(e) => {
 										currentMatch.team2score = parseInt(
 											e.target.value
 										);
-										setTimeout(
-											() =>
-												updateState(
-													{
-														...state,
-														currentMatch,
-													},
-													autoUpdate
-												),
-											100
-										);
+										updateMap();
 									}}
 									disableUnderline={true}
 									style={{
@@ -577,13 +595,6 @@ function MapManager() {
 										paddingTop: "8px",
 										width: "20%",
 										backgroundColor: "rgba(0, 0, 0, 0.2)",
-									}}
-									inputProps={{
-										step: 1,
-										min: 0,
-										max: 100,
-										type: "number",
-										"aria-labelledby": "team2scorelabel",
 									}}
 								/>
 								<Divider />
@@ -607,10 +618,7 @@ function MapManager() {
 									onChange={(e) => {
 										currentMatch.completed =
 											e.target.checked;
-										setTimeout(
-											() => setKey(Math.random()),
-											100
-										);
+										updateMap();
 									}}
 								/>
 							</div>
@@ -629,17 +637,7 @@ function MapManager() {
 										onChange={(e) => {
 											currentMatch.mapLineup!.scoringType =
 												e.target.value as "ft" | "bo";
-											setTimeout(
-												() =>
-													updateState(
-														{
-															...state,
-															currentMatch,
-														},
-														autoUpdate
-													),
-												100
-											);
+											updateMap();
 										}}
 									>
 										<MenuItem value={"ft"}>
@@ -661,14 +659,7 @@ function MapManager() {
 										onChange={(e) => {
 											currentMatch.mapLineup!.scoreaim =
 												parseInt(e.target.value as any);
-											setTimeout(
-												() =>
-													updateState({
-														...state,
-														currentMatch,
-													}),
-												100
-											);
+											updateMap();
 										}}
 									>
 										{Array.from(Array(20)).map(
@@ -695,7 +686,7 @@ function MapManager() {
 												setSelectedMap:
 													setSelectedMapIndex,
 											},
-											setKey,
+											updateMap,
 											mapData,
 											{ team1, team2 }
 										);
@@ -729,13 +720,7 @@ function MapManager() {
 					/>
 					<BottomNavigationAction
 						onClick={() => {
-							updateState(
-								{
-									...state,
-									currentMatch: { ...currentMatch },
-								},
-								true
-							);
+							updateMap(true);
 						}}
 						label={"Send Changes to Overlay"}
 						icon={<SaveIcon />}

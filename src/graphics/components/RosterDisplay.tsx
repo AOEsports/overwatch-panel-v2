@@ -40,12 +40,11 @@ const HeroDisplay = {
 	},
 	small: {
 		display: "inline-flex",
-		maxWidth: "250px",
-		maxHeight: "250px",
 		minWidth: "250px",
-		minHeight: "250px",
-		backgroundPosition: "center top",
+		minHeight: "300px",
+		backgroundPosition: "center bottom",
 		backgroundRepeat: "no-repeat",
+		backgroundSize: "contain",
 	},
 };
 
@@ -77,8 +76,8 @@ export function RosterDisplay(props: RosterDisplayProps) {
 							...HeroDisplay[props.size],
 							backgroundImage:
 								props.size == "small"
-									? `url(../assets/headportraits/${props.hero}.png)`
-									: `url(../assets/portraits/${props.hero}.png)`,
+									? `url("../assets/herotaller/${props.hero}.png")`
+									: `url("../assets/portraits/${props.hero}.png")`,
 						}}
 					></div>
 					<div>

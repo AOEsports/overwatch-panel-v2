@@ -19,5 +19,9 @@ export interface ThemeConfig {
 			CompletedMatchScoreboxBackground: Color;
 			CompletedMatchScoreboxText: Color;
 		};
+		Score: {
+			Background: Color;
+			Text: Color;
+		};
 	};
 }

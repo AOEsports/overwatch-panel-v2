@@ -48,6 +48,7 @@ function Dashboard() {
 
 	let teamToDisplay: { team1?: Team; team2?: Team; poll?: boolean } | null =
 		null;
+	let teamToDoTransition: { team?: Team } | null = null;
 	return (
 		<>
 			<Grid container spacing={2} direction="column" alignItems="left">
@@ -57,6 +58,11 @@ function Dashboard() {
 						<Button
 							color="success"
 							variant="contained"
+							onClick={() =>
+								nodecg.sendMessage("displayScores", {
+									displayed: true,
+								})
+							}
 							style={{ width: "50%" }}
 						>
 							Show
@@ -64,6 +70,11 @@ function Dashboard() {
 						<Button
 							color="error"
 							variant="contained"
+							onClick={() =>
+								nodecg.sendMessage("displayScores", {
+									displayed: false,
+								})
+							}
 							style={{ width: "50%" }}
 						>
 							Hide
@@ -172,6 +183,48 @@ function Dashboard() {
 								}
 							>
 								Hide
+							</Button>
+						</ButtonGroup>
+					</Stack>
+				</Grid>
+				<Grid item lg={1}>
+					<h3 style={{ minWidth: "100%" }}>Team Transition</h3>
+					<Stack direction="row" spacing={2}>
+						<TeamSelectorDropdown
+							teams={teams.teams}
+							label="Select Team"
+							onChange={(team, e) => {
+								console.log(
+									`Loading team`,
+									e.target.value,
+									team
+								);
+								teamToDoTransition = { team: team };
+							}}
+							defaultValue={"Unknown"}
+							showNoneOption={false}
+						/>
+
+						<ButtonGroup
+							style={{ minWidth: "40%", maxWidth: "40%" }}
+						>
+							<Button
+								color="success"
+								variant="contained"
+								style={{ width: "50%" }}
+								size="small"
+								onClick={() => {
+									if (teamToDoTransition?.team) {
+										nodecg.sendMessage("doTransition", {
+											shown: true,
+											team:
+												teamToDoTransition?.team ||
+												null,
+										});
+									}
+								}}
+							>
+								Transition
 							</Button>
 						</ButtonGroup>
 					</Stack>

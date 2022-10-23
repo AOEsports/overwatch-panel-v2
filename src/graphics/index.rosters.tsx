@@ -6,21 +6,47 @@ import { Wrapper } from "common/Wrapper";
 import { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import { RosterDisplay } from "./components/RosterDisplay";
+
+function pullHeroData(method: Function) {
+	return fetch("../assets/data/heroes.json")
+		.then((response) => response.json())
+		.then((responseJson) => {
+			method(responseJson);
+			return responseJson;
+		})
+		.catch((error) => {
+			console.error(error);
+		});
+}
+
 function Graphics(props: { currentTheme?: ThemeConfig }) {
 	const [displayData, setDisplayData] = useState({
 		shown: false,
 		team: { team1: null, team2: null },
 	}) as [any, Function];
-	const [listenerLoaded, setIsListenerLoaded] = useState(false) as [
-		boolean,
-		Function
-	];
+
 	const [isDisplayed, setDisplayedState] = useState(true) as [
 		boolean,
 		Function
 	];
+	const [imagesCached, setImagesCached] = useState(false);
+	const [heroData, setHeroData] = useState() as [any, Function];
+	if (!heroData) pullHeroData(setHeroData);
 
 	useEffect(() => {
+		if (!imagesCached && heroData) {
+			console.log(`hero data`, heroData.heroes);
+			heroData.heroes.forEach((hero: any) => {
+				console.log(hero);
+				const imgTaller = new Image();
+				imgTaller.src = `../assets/herotaller/${hero.file}`;
+				imgTaller.onload = () => {};
+				const imgPortrait = new Image();
+				imgPortrait.src = `../assets/portraits/${hero.file}`;
+				imgPortrait.onload = () => {};
+			});
+			setImagesCached(true);
+		}
 		nodecg.listenFor("displayRoster", (data) => {
 			setDisplayedState(false);
 			if (data.shown) {
@@ -30,9 +56,9 @@ function Graphics(props: { currentTheme?: ThemeConfig }) {
 				}, 2000);
 			}
 		});
-		setIsListenerLoaded(true);
 		return nodecg.unlisten("displayRoster", () => {});
-	}, [isDisplayed]);
+	}, [isDisplayed, imagesCached, heroData]);
+	if (!imagesCached) return <></>;
 
 	return (
 		<>
@@ -81,7 +107,7 @@ function Graphics(props: { currentTheme?: ThemeConfig }) {
 						alignItems="center"
 						style={
 							displayData?.team.team2
-								? { paddingTop: "100px" }
+								? { paddingTop: "40px" }
 								: {}
 						}
 					>

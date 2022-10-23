@@ -55,7 +55,7 @@
 			},
 			{
 				"name": "mapmanager",
-				"title": "Map Manager",
+				"title": "Map and Score Manager",
 				"width": 4,
 				"file": "map-manager.html",
 				"headerColor": "#6b54b6"
@@ -81,6 +81,16 @@
 			},
 			{
 				"file": "score.html",
+				"width": 1920,
+				"height": 1080
+			},
+			{
+				"file": "maps.html",
+				"width": 1920,
+				"height": 1080
+			},
+			{
+				"file": "teamtransition.html",
 				"width": 1920,
 				"height": 1080
 			}

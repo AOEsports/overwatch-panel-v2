@@ -1,93 +1,93 @@
 {
 	"gamemodes": [
-		{ "name": "Upcoming", "file": "Upcoming.png" },
-		{ "name": "Escort", "file": "Escort.png" },
-		{ "name": "Hybrid", "file": "Hybrid.png" },
-		{ "name": "Control", "file": "Control.png" },
-		{ "name": "Push", "file": "Push.png" },
-		{ "name": "Assault", "file": "Assault.png" },
-		{ "name": "Arcade", "file": "Numbani.png" }
+		{ "name": "Upcoming", "file": "Upcoming.webp", "hasSides": false },
+		{ "name": "Push", "file": "Push.webp", "hasSides": false },
+		{ "name": "Escort", "file": "Escort.webp", "hasSides": true },
+		{ "name": "Hybrid", "file": "Hybrid.webp", "hasSides": true },
+		{ "name": "Control", "file": "Control.webp", "hasSides": false },
+		{ "name": "Assault", "file": "Assault.webp", "hasSides": true },
+		{ "name": "Arcade", "file": "Numbani.webp", "hasSides": false }
 	],
 	"allmaps": [
-		{ "name": "Hanamura", "file": "Hanamura.png", "gamemode": "Assault" },
+		{ "name": "Hanamura", "file": "Hanamura.webp", "gamemode": "Assault" },
 		{
 			"name": "Horizon Lunar Colony",
-			"file": "Horizon_Lunar_Colony.png",
+			"file": "Horizon_Lunar_Colony.webp",
 			"gamemode": "Assault"
 		},
-		{ "name": "Paris", "file": "Paris.png", "gamemode": "Assault" },
+		{ "name": "Paris", "file": "Paris.webp", "gamemode": "Assault" },
 		{
 			"name": "Temple of Anubis",
-			"file": "Temple_of_Anubis.png",
+			"file": "Temple_of_Anubis.webp",
 			"gamemode": "Assault"
 		},
 		{
 			"name": "Volskaya Industries",
-			"file": "Volskaya_Industries.png",
+			"file": "Volskaya_Industries.webp",
 			"gamemode": "Assault"
 		},
-		{ "name": "Dorado", "file": "Dorado.png", "gamemode": "Escort" },
-		{ "name": "Havana", "file": "Havana.png", "gamemode": "Escort" },
+		{ "name": "Dorado", "file": "Dorado.webp", "gamemode": "Escort" },
+		{ "name": "Havana", "file": "Havana.webp", "gamemode": "Escort" },
 		{
 			"name": "Junkertown",
-			"file": "Junkertown.png",
+			"file": "Junkertown.webp",
 			"gamemode": "Escort"
 		},
-		{ "name": "Rialto", "file": "Rialto.png", "gamemode": "Escort" },
-		{ "name": "Route: 66", "file": "Route_66.png", "gamemode": "Escort" },
+		{ "name": "Rialto", "file": "Rialto.webp", "gamemode": "Escort" },
+		{ "name": "Route: 66", "file": "Route_66.webp", "gamemode": "Escort" },
 		{
 			"name": "Circuit Royal",
-			"file": "Circuit_Royal.png",
+			"file": "Circuit_Royal.webp",
 			"gamemode": "Escort"
 		},
 		{
 			"name": "Watchpoint: Gibraltar",
-			"file": "Watchpoint-_Gibraltar.png",
+			"file": "Watchpoint-_Gibraltar.webp",
 			"gamemode": "Escort"
 		},
 		{
 			"name": "Blizzard World",
-			"file": "Blizzard_World.png",
+			"file": "Blizzard_World.webp",
 			"gamemode": "Hybrid"
 		},
 		{
 			"name": "Eichenwalde",
-			"file": "Eichenwalde.png",
+			"file": "Eichenwalde.webp",
 			"gamemode": "Hybrid"
 		},
-		{ "name": "Hollywood", "file": "Hollywood.png", "gamemode": "Hybrid" },
+		{ "name": "Hollywood", "file": "Hollywood.webp", "gamemode": "Hybrid" },
 		{
 			"name": "King's Row",
-			"file": "King's_Row.png",
+			"file": "King's_Row.webp",
 			"gamemode": "Hybrid"
 		},
-		{ "name": "Numbani", "file": "Numbani.png", "gamemode": "Hybrid" },
-		{ "name": "Paraíso", "file": "Paraiso.png", "gamemode": "Hybrid" },
-		{ "name": "Midtown", "file": "Midtown.png", "gamemode": "Hybrid" },
-		{ "name": "Busan", "file": "Busan.png", "gamemode": "Control" },
-		{ "name": "Ilios", "file": "Ilios.png", "gamemode": "Control" },
+		{ "name": "Numbani", "file": "Numbani.webp", "gamemode": "Hybrid" },
+		{ "name": "Paraíso", "file": "Paraiso.webp", "gamemode": "Hybrid" },
+		{ "name": "Midtown", "file": "Midtown.webp", "gamemode": "Hybrid" },
+		{ "name": "Busan", "file": "Busan.webp", "gamemode": "Control" },
+		{ "name": "Ilios", "file": "Ilios.webp", "gamemode": "Control" },
 		{
 			"name": "Lijiang Tower",
-			"file": "Lijiang_Tower.png",
+			"file": "Lijiang_Tower.webp",
 			"gamemode": "Control"
 		},
-		{ "name": "Nepal", "file": "Nepal.png", "gamemode": "Control" },
-		{ "name": "Oasis", "file": "Oasis.png", "gamemode": "Control" },
+		{ "name": "Nepal", "file": "Nepal.webp", "gamemode": "Control" },
+		{ "name": "Oasis", "file": "Oasis.webp", "gamemode": "Control" },
 
 		{
 			"name": "New Queen Street",
-			"file": "New_Queen_Street.png",
+			"file": "New_Queen_Street.webp",
 			"gamemode": "Push"
 		},
-		{ "name": "Colosseo", "file": "Colosseo.png", "gamemode": "Push" },
-		{ "name": "Esperança", "file": "Esperanca.png", "gamemode": "Push" },
+		{ "name": "Colosseo", "file": "Colosseo.webp", "gamemode": "Push" },
+		{ "name": "Esperança", "file": "Esperanca.webp", "gamemode": "Push" },
 
-		{ "gamemode": "Upcoming", "name": "Upcoming", "file": "Upcoming.png" },
-		{ "gamemode": "Upcoming", "name": "Assault", "file": "Assault.png" },
-		{ "gamemode": "Upcoming", "name": "Push", "file": "Push.png" },
-		{ "gamemode": "Upcoming", "name": "Escort", "file": "Escort.png" },
-		{ "gamemode": "Upcoming", "name": "Hybrid", "file": "Hybrid.png" },
-		{ "gamemode": "Upcoming", "name": "Control", "file": "Control.png" },
-		{ "gamemode": "Upcoming", "name": "Arcade", "file": "Arcade.png" }
+		{ "gamemode": "Upcoming", "name": "Upcoming", "file": "Upcoming.webp" },
+		{ "gamemode": "Upcoming", "name": "Assault", "file": "Assault.webp" },
+		{ "gamemode": "Upcoming", "name": "Push", "file": "Push.webp" },
+		{ "gamemode": "Upcoming", "name": "Escort", "file": "Escort.webp" },
+		{ "gamemode": "Upcoming", "name": "Hybrid", "file": "Hybrid.webp" },
+		{ "gamemode": "Upcoming", "name": "Control", "file": "Control.webp" },
+		{ "gamemode": "Upcoming", "name": "Arcade", "file": "Arcade.webp" }
 	]
 }

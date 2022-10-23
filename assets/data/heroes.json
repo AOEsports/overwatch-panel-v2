@@ -3,145 +3,145 @@
 		{
 			"name": "D.Va",
 			"classOverride": "DVa",
-			"file": "DVa.png"
+			"file": "DVa.webp"
 		},
 		{
 			"name": "Doomfist",
-			"file": "Doomfist.png"
+			"file": "Doomfist.webp"
 		},
 		{
-			"name": "Junkerqueen",
-			"file": "Junkerqueen.png"
+			"name": "Junker Queen",
+			"file": "Junker Queen.webp"
 		},
 		{
 			"name": "Orisa",
-			"file": "Orisa.png"
+			"file": "Orisa.webp"
 		},
 		{
 			"name": "Reinhardt",
-			"file": "Reinhardt.png"
+			"file": "Reinhardt.webp"
 		},
 		{
 			"name": "Roadhog",
-			"file": "Roadhog.png"
+			"file": "Roadhog.webp"
 		},
 		{
 			"name": "Sigma",
-			"file": "Sigma.png"
+			"file": "Sigma.webp"
 		},
 		{
 			"name": "Winston",
-			"file": "Winston.png"
+			"file": "Winston.webp"
 		},
 		{
 			"name": "Wrecking Ball",
 			"classOverride": "Wrecking_Ball",
-			"file": "Wrecking Ball.png"
+			"file": "Wrecking Ball.webp"
 		},
 		{
 			"name": "Zarya",
-			"file": "Zarya.png"
+			"file": "Zarya.webp"
 		},
 		{
 			"name": "Ashe",
-			"file": "Ashe.png"
+			"file": "Ashe.webp"
 		},
 		{
 			"name": "Bastion",
-			"file": "Bastion.png"
+			"file": "Bastion.webp"
 		},
 		{
 			"name": "Echo",
-			"file": "Echo.png"
+			"file": "Echo.webp"
 		},
 		{
 			"name": "Genji",
-			"file": "Genji.png"
+			"file": "Genji.webp"
 		},
 		{
 			"name": "Hanzo",
-			"file": "Hanzo.png"
+			"file": "Hanzo.webp"
 		},
 		{
 			"name": "Junkrat",
-			"file": "Junkrat.png"
+			"file": "Junkrat.webp"
 		},
 		{
 			"name": "Cassidy",
-			"file": "Cassidy.png"
+			"file": "Cassidy.webp"
 		},
 		{
 			"name": "Mei",
-			"file": "Mei.png"
+			"file": "Mei.webp"
 		},
 		{
 			"name": "Pharah",
-			"file": "Pharah.png"
+			"file": "Pharah.webp"
 		},
 		{
 			"name": "Reaper",
-			"file": "Reaper.png"
+			"file": "Reaper.webp"
 		},
 		{
 			"name": "Sojourn",
-			"file": "Sojourn.png"
+			"file": "Sojourn.webp"
 		},
 		{
 			"name": "Soldier 76",
 			"classOverride": "Soldier_76",
-			"file": "Soldier76.png"
+			"file": "Soldier76.webp"
 		},
 		{
 			"name": "Sombra",
-			"file": "Sombra.png"
+			"file": "Sombra.webp"
 		},
 		{
 			"name": "Symmetra",
-			"file": "Symmetra.png"
+			"file": "Symmetra.webp"
 		},
 		{
 			"name": "Torbjorn",
-			"file": "Torbjorn.png"
+			"file": "Torbjorn.webp"
 		},
 		{
 			"name": "Tracer",
-			"file": "Tracer.png"
+			"file": "Tracer.webp"
 		},
 		{
 			"name": "Widowmaker",
-			"file": "Widowmaker.png"
+			"file": "Widowmaker.webp"
 		},
 		{
 			"name": "Ana",
-			"file": "Ana.png"
+			"file": "Ana.webp"
 		},
 		{
 			"name": "Baptiste",
-			"file": "Baptiste.png"
+			"file": "Baptiste.webp"
 		},
 		{
 			"name": "Brigitte",
-			"file": "Brigitte.png"
+			"file": "Brigitte.webp"
 		},
 		{
 			"name": "Kiriko",
-			"file": "Kiriko.png"
+			"file": "Kiriko.webp"
 		},
 		{
 			"name": "Lucio",
-			"file": "Lucio.png"
+			"file": "Lucio.webp"
 		},
 		{
 			"name": "Mercy",
-			"file": "Mercy.png"
+			"file": "Mercy.webp"
 		},
 		{
 			"name": "Moira",
-			"file": "Moira.png"
+			"file": "Moira.webp"
 		},
 		{
 			"name": "Zenyatta",
-			"file": "Zenyatta.png"
+			"file": "Zenyatta.webp"
 		}
 	],
 	"allheroes": [
