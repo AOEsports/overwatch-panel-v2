@@ -2,7 +2,7 @@ import { Slide, Stack } from "@mui/material";
 import { Team } from "common/types/Team";
 
 export interface RosterDisplayProps {
-	size: "small" | "tall";
+	size: "small" | "tall" | "wide";
 	playerName: string;
 	role: "dps" | "tank" | "support" | "flex";
 	hero: string;
@@ -13,6 +13,12 @@ export interface RosterDisplayProps {
 }
 
 const PlayerDisplay = {
+	wide: {
+		maxWidth: "350px",
+		minWidth: "350px",
+		marginLeft: "10px",
+		marginRight: "10px",
+	},
 	tall: {
 		maxWidth: "350px",
 		minWidth: "350px",
@@ -28,6 +34,16 @@ const PlayerDisplay = {
 };
 
 const HeroDisplay = {
+	wide: {
+		display: "inline-flex",
+		maxWidth: "350px",
+		maxHeight: "750px",
+		minWidth: "350px",
+		minHeight: "750px",
+		backgroundPosition: "center top",
+		backgroundRepeat: "no-repeat",
+		backgroundSize: "cover",
+	},
 	tall: {
 		display: "inline-flex",
 		maxWidth: "350px",
@@ -59,6 +75,12 @@ const NamePlate = {
 	fontSize: "2.5rem",
 };
 
+function getImage(hero: string, size: string) {
+	if (size == "small") return `../assets/herotaller/${hero}.webp`;
+	if (size == "wide") return `../assets/wideportraits/${hero}.webp`;
+	return `../assets/portraits/${hero}.png`;
+}
+
 export function RosterDisplay(props: RosterDisplayProps) {
 	console.log(`displayed; `, props.displayed);
 	return (
@@ -74,10 +96,10 @@ export function RosterDisplay(props: RosterDisplayProps) {
 					<div
 						style={{
 							...HeroDisplay[props.size],
-							backgroundImage:
-								props.size == "small"
-									? `url("../assets/herotaller/${props.hero}.png")`
-									: `url("../assets/portraits/${props.hero}.png")`,
+							backgroundImage: `url("${getImage(
+								props.hero,
+								props.size
+							)}")`,
 						}}
 					></div>
 					<div>
@@ -96,13 +118,6 @@ export function RosterDisplay(props: RosterDisplayProps) {
 						>
 							{props.playerName.toUpperCase()}
 						</h1>
-						{/* fuck role icons for the time being
-						<span
-							style={{
-								...RoleIcon,
-								backgroundImage: `url(../assets/icons/${props.role}.png)`,
-							}}
-						></span> */}
 					</div>
 				</Stack>
 			</Slide>

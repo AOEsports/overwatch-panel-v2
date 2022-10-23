@@ -16,9 +16,9 @@ export interface MapDisplayProps {
 const MapDisplayStyle = {
 	minHeight: "50px",
 	width: "1520px",
+	paddingTop: "4px",
 	flexShrink: 1,
 	flexGrow: 1,
-	paddingTop: "4px",
 };
 
 const MapImageDisplay = {
@@ -79,21 +79,43 @@ export function MapDisplay(props: MapDisplayProps) {
 				<Stack direction="row" style={MapDisplayStyle}>
 					<div
 						style={{
+							...(winner.team
+								? {
+										backgroundImage: `url(${winner.team.icons?.teamIcon})`,
+										backgroundSize: "cover",
+										backgroundPosition: "center center",
+										backgroundRepeat: "no-repeat",
+										textShadow: `2px 2px ${winner.team.colors.shadow}`,
+								  }
+								: {}),
 							margin: "0px",
 							borderLeft: `6px solid ${
 								winner.team
 									? winner.team.colors.primary
-									: "grey"
+									: "#DE6F2B"
 							}`,
 							borderRight: `6px solid ${
 								winner.team
 									? winner.team.colors.primary
-									: "grey"
+									: "#DE6F2B"
 							}`,
 							marginRight: "12px",
+							display: "flex",
+							flexGrow: 1,
+							height: "100%",
+							backgroundColor: "#353E46",
 						}}
 					>
-						<h1 style={MapNamePlate}>
+						<h1
+							style={
+								winner.team
+									? {
+											...MapNamePlate,
+											color: `${winner.team.colors.textColor}`,
+									  }
+									: MapNamePlate
+							}
+						>
 							{(
 								props.mapSelection.mapName || "Unknown"
 							).toUpperCase()}
@@ -113,7 +135,7 @@ export function MapDisplay(props: MapDisplayProps) {
 							direction={"right"}
 							in={props.displayed}
 							mountOnEnter
-							timeout={1500 + props.index * 250}
+							timeout={3250 + props.index * 500}
 							easing="ease-in-out"
 						>
 							<div
@@ -142,46 +164,33 @@ export function MapDisplay(props: MapDisplayProps) {
 												height: "inherit",
 												backgroundColor:
 													winner.team.colors.primary,
-												mixBlendMode: "hue",
+												opacity: "75%",
+												mixBlendMode: "color",
 											}}
 										></span>
 										<span
 											style={{
-												width: "inherit",
-												height: "inherit",
 												position: "absolute",
 												textAlign: "left",
 												paddingLeft: "50px",
 												color:
 													winner.team.colors
 														.textColor || "white",
-												textShadow: `2px 2px ${
+												textShadow: `4px 4px ${
 													winner.team.colors.shadow ||
 													"black"
 												}`,
+												fontFamily:
+													"BigNoodleTooOblique",
+												alignSelf: "center",
 											}}
 										>
-											<img
-												src={
-													winner.team.icons?.teamIcon
-												}
-												style={{
-													width: "80px",
-													maxHeight: "60px",
-													filter: `drop-shadow(0px 0px 15px black)`,
-													marginRight: "25px",
-													objectFit: "contain",
-													display: "inline-block",
-												}}
-											/>
 											<span
 												style={{
 													paddingLeft: "24px",
 													paddingRight: "64px",
 													display: "inline-block",
 													minWidth: "180px",
-													transform:
-														"translateY(-10px)",
 												}}
 											>
 												{props.mapSelection
@@ -193,8 +202,6 @@ export function MapDisplay(props: MapDisplayProps) {
 											<span
 												style={{
 													display: "inline-block",
-													transform:
-														"translateY(-10px)",
 												}}
 											>
 												{winner.team.name}

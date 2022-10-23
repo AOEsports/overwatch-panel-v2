@@ -117,7 +117,7 @@ function Graphics(props: { currentTheme?: ThemeConfig }) {
 									size={
 										displayData?.team.team2
 											? "small"
-											: "tall"
+											: "wide"
 									}
 									playerName={player.name || "Player"}
 									hero={player.hero || "Genji"}
