@@ -69,7 +69,7 @@ function MatchList(props: { currentTheme?: ThemeConfig }) {
 								key={`${currentMatch.matchId}-${index}`}
 								mapSelection={map}
 								index={index}
-								displayed={true}
+								displayed={imagesCached}
 								currentMatch={currentMatch}
 								team1={team1}
 								team2={team2}

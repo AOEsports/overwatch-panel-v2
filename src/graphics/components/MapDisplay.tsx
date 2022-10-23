@@ -2,6 +2,7 @@ import { Slide, Stack } from "@mui/material";
 import { MapSelection } from "common/types/MapSelection";
 import { MatchData } from "common/types/MatchData";
 import { Team } from "common/types/Team";
+import { useState } from "react";
 
 export interface MapDisplayProps {
 	index: number;
@@ -50,22 +51,31 @@ const MapNamePlate = {
 
 export function MapDisplay(props: MapDisplayProps) {
 	console.log(`displayed; `, props.displayed);
-	let winner: { draw: boolean; team: Team | null } = {
-		draw: false,
-		team: null,
-	};
+	const [showMap, setShowMap] = useState(false);
+	if (!props.displayed) return <></>;
+	let winner: Team | null = null;
 	if (props.mapSelection.completed) {
 		if (
 			(props.mapSelection.team1score || 0) ==
 			(props.mapSelection.team2score || 0)
-		)
-			winner.draw = true;
-		if (
+		) {
+			winner = {
+				teamId: -1,
+				name: "DRAW",
+				colors: {
+					primary: "red",
+					textColor: "white",
+					shadow: "black",
+					player: "black",
+				},
+				players: [],
+			};
+		} else if (
 			props.mapSelection.team1score ||
 			0 > (props.mapSelection.team2score || 0)
 		)
-			winner.team = props.team1;
-		else winner.team = props.team2;
+			winner = props.team1;
+		else winner = props.team2;
 	}
 	return (
 		<>
@@ -74,30 +84,30 @@ export function MapDisplay(props: MapDisplayProps) {
 				in={props.displayed}
 				mountOnEnter
 				timeout={1000 + props.index * 250}
+				onTransitionEnd={() => {
+					console.log(`marking map to be shown`);
+					setShowMap(true);
+				}}
 				easing="ease-in-out"
 			>
 				<Stack direction="row" style={MapDisplayStyle}>
 					<div
 						style={{
-							...(winner.team
+							...(winner
 								? {
-										backgroundImage: `url(${winner.team.icons?.teamIcon})`,
+										backgroundImage: `url(${winner.icons?.teamIcon})`,
 										backgroundSize: "cover",
 										backgroundPosition: "center center",
 										backgroundRepeat: "no-repeat",
-										textShadow: `2px 2px ${winner.team.colors.shadow}`,
+										textShadow: `2px 2px ${winner.colors.shadow}`,
 								  }
 								: {}),
 							margin: "0px",
 							borderLeft: `6px solid ${
-								winner.team
-									? winner.team.colors.primary
-									: "#DE6F2B"
+								winner ? winner.colors.primary : "#DE6F2B"
 							}`,
 							borderRight: `6px solid ${
-								winner.team
-									? winner.team.colors.primary
-									: "#DE6F2B"
+								winner ? winner.colors.primary : "#DE6F2B"
 							}`,
 							marginRight: "12px",
 							display: "flex",
@@ -108,10 +118,10 @@ export function MapDisplay(props: MapDisplayProps) {
 					>
 						<h1
 							style={
-								winner.team
+								winner
 									? {
 											...MapNamePlate,
-											color: `${winner.team.colors.textColor}`,
+											color: `${winner.colors.textColor}`,
 									  }
 									: MapNamePlate
 							}
@@ -133,9 +143,11 @@ export function MapDisplay(props: MapDisplayProps) {
 					>
 						<Slide
 							direction={"right"}
-							in={props.displayed}
+							in={props.displayed && showMap}
+							appear={props.displayed && showMap}
+							style={!showMap ? { display: "none" } : {}}
 							mountOnEnter
-							timeout={3250 + props.index * 500}
+							timeout={1000}
 							easing="ease-in-out"
 						>
 							<div
@@ -147,23 +159,14 @@ export function MapDisplay(props: MapDisplayProps) {
 										: "none",
 								}}
 							>
-								{winner.draw ? (
-									<span>
-										DRAW {props.mapSelection.team1score} -{" "}
-										{props.mapSelection.team2score}
-									</span>
-								) : (
-									<></>
-								)}
-
-								{winner.team ? (
+								{winner ? (
 									<>
 										<span
 											style={{
 												width: "inherit",
 												height: "inherit",
 												backgroundColor:
-													winner.team.colors.primary,
+													winner.colors.primary,
 												opacity: "75%",
 												mixBlendMode: "color",
 											}}
@@ -174,10 +177,10 @@ export function MapDisplay(props: MapDisplayProps) {
 												textAlign: "left",
 												paddingLeft: "50px",
 												color:
-													winner.team.colors
-														.textColor || "white",
+													winner.colors.textColor ||
+													"white",
 												textShadow: `4px 4px ${
-													winner.team.colors.shadow ||
+													winner.colors.shadow ||
 													"black"
 												}`,
 												fontFamily:
@@ -204,7 +207,7 @@ export function MapDisplay(props: MapDisplayProps) {
 													display: "inline-block",
 												}}
 											>
-												{winner.team.name}
+												{winner.name}
 											</span>
 										</span>
 									</>
