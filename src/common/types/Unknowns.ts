@@ -9,6 +9,17 @@ export const UnknownTeam: Team = {
 	colors: {},
 	players: [] as Player[],
 };
+export const DrawnTeam: Team = {
+	teamId: -1,
+	name: "DRAW",
+	colors: {
+		primary: "red",
+		textColor: "white",
+		shadow: "black",
+		player: "black",
+	},
+	players: [],
+};
 
 export const UnknownPlayer: Player = {
 	name: "A Player",

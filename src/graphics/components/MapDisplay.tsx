@@ -2,6 +2,7 @@ import { Slide, Stack } from "@mui/material";
 import { MapSelection } from "common/types/MapSelection";
 import { MatchData } from "common/types/MatchData";
 import { Team } from "common/types/Team";
+import { DrawnTeam } from "common/types/Unknowns";
 import { useState } from "react";
 
 export interface MapDisplayProps {
@@ -59,17 +60,7 @@ export function MapDisplay(props: MapDisplayProps) {
 			(props.mapSelection.team1score || 0) ==
 			(props.mapSelection.team2score || 0)
 		) {
-			winner = {
-				teamId: -1,
-				name: "DRAW",
-				colors: {
-					primary: "red",
-					textColor: "white",
-					shadow: "black",
-					player: "black",
-				},
-				players: [],
-			};
+			winner = DrawnTeam;
 		} else if (
 			props.mapSelection.team1score ||
 			0 > (props.mapSelection.team2score || 0)
