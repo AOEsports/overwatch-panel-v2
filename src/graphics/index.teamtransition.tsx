@@ -1,14 +1,15 @@
 import { ThemeConfig } from "common/types/ThemeConfig";
 import { Wrapper } from "common/Wrapper";
-import ReactDOM from "react-dom";
 
-function MatchList(props: { currentTheme?: ThemeConfig }) {
+function TeamTransition(props: { currentTheme?: ThemeConfig }) {
 	return <div>team transition scene or something idk??</div>;
 }
 
-ReactDOM.render(
+import { createRoot } from "react-dom/client";
+const container = document.getElementById("app");
+const root = createRoot(container!); // createRoot(container!) if you use TypeScript
+root.render(
 	<Wrapper>
-		<MatchList />
-	</Wrapper>,
-	document.getElementById("root")
+		<TeamTransition />
+	</Wrapper>
 );

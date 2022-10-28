@@ -11,7 +11,6 @@ import { MatchReplicant } from "common/types/replicants/MatchReplicant";
 import { TeamReplicant } from "common/types/replicants/TeamReplicant";
 import { Team } from "common/types/Team";
 import { Wrapper } from "common/Wrapper";
-import ReactDOM from "react-dom";
 import { useOnlyReplicantValue } from "../common/useReplicant";
 import TeamSelectorDropdown from "./components/TeamSelectorDropdown";
 
@@ -234,9 +233,11 @@ function Dashboard() {
 	);
 }
 
-ReactDOM.render(
+import { createRoot } from "react-dom/client";
+const container = document.getElementById("app");
+const root = createRoot(container!); // createRoot(container!) if you use TypeScript
+root.render(
 	<Wrapper isDashboard={true} cssInject={{ padding: "16px" }}>
 		<Dashboard />
-	</Wrapper>,
-	document.getElementById("root")
+	</Wrapper>
 );

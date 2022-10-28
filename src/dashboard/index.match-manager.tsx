@@ -16,7 +16,6 @@ import { TextBar } from "common/types/TextBar";
 import { useReplicantValue } from "common/useReplicant";
 import { Wrapper } from "common/Wrapper";
 import { useState } from "react";
-import ReactDOM from "react-dom";
 import { useOnlyReplicantValue } from "../common/useReplicant";
 import { ScheduledMatch } from "./components/ScheduledMatch";
 
@@ -147,9 +146,11 @@ function MatchManager() {
 	);
 }
 
-ReactDOM.render(
+import { createRoot } from "react-dom/client";
+const container = document.getElementById("app");
+const root = createRoot(container!); // createRoot(container!) if you use TypeScript
+root.render(
 	<Wrapper isDashboard={true} cssInject={{ padding: "16px" }}>
 		<MatchManager />
-	</Wrapper>,
-	document.getElementById("root")
+	</Wrapper>
 );

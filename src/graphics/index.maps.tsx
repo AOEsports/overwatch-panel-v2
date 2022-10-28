@@ -4,8 +4,8 @@ import { MapSelection } from "common/types/MapSelection";
 import { ThemeConfig } from "common/types/ThemeConfig";
 import { Wrapper } from "common/Wrapper";
 import { useEffect, useState } from "react";
-import ReactDOM from "react-dom";
 import { MapDisplay } from "./components/MapDisplay";
+import { createRoot } from "react-dom/client";
 
 function pullMapData(method: Function) {
 	return fetch("../assets/data/maps.json")
@@ -19,7 +19,7 @@ function pullMapData(method: Function) {
 		});
 }
 
-function MatchList(props: { currentTheme?: ThemeConfig }) {
+function MapList(props: { currentTheme?: ThemeConfig }) {
 	const { state, updateState } = getCurrentMatchWithTeamsAsState();
 
 	const [imagesCached, setImagesCached] = useState(false);
@@ -83,9 +83,10 @@ function MatchList(props: { currentTheme?: ThemeConfig }) {
 	);
 }
 
-ReactDOM.render(
+const container = document.getElementById("app");
+const root = createRoot(container!); // createRoot(container!) if you use TypeScript
+root.render(
 	<Wrapper>
-		<MatchList />
-	</Wrapper>,
-	document.getElementById("root")
+		<MapList />
+	</Wrapper>
 );

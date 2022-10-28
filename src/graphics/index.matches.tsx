@@ -7,7 +7,7 @@ import { TeamReplicant } from "common/types/replicants/TeamReplicant";
 import { Team } from "common/types/Team";
 import { ThemeConfig } from "common/types/ThemeConfig";
 import { Wrapper } from "common/Wrapper";
-import ReactDOM from "react-dom";
+import { createRoot } from "react-dom/client";
 import { useOnlyReplicantValue } from "../common/useReplicant";
 import { UpcomingMatch } from "./components/UpcomingMatch";
 
@@ -89,9 +89,10 @@ function MatchList(props: { currentTheme?: ThemeConfig }) {
 	);
 }
 
-ReactDOM.render(
+const container = document.getElementById("app");
+const root = createRoot(container!); // createRoot(container!) if you use TypeScript
+root.render(
 	<Wrapper>
 		<MatchList />
-	</Wrapper>,
-	document.getElementById("root")
+	</Wrapper>
 );

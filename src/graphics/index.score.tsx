@@ -1,15 +1,14 @@
-import { Slide } from "@mui/material";
 import { Stack } from "@mui/system";
 import { getCurrentMatchWithTeamsAsState } from "common/Helper";
 import { ThemeConfig } from "common/types/ThemeConfig";
 import { Wrapper } from "common/Wrapper";
-import { useState, useEffect } from "react";
-import ReactDOM from "react-dom";
+import { useEffect, useState } from "react";
 import { InformationOverlay } from "./components/InformationOverlay";
 import { ScoreboardMiddleBox } from "./components/ScoreboardMiddleBox";
 import { TeamScore } from "./components/TeamScore";
+import { createRoot } from "react-dom/client";
 
-function MatchList(props: { currentTheme?: ThemeConfig }) {
+function MatchScoreOverlay(props: { currentTheme?: ThemeConfig }) {
 	const { state, updateState } = getCurrentMatchWithTeamsAsState();
 	const [displayed, setDisplayedState] = useState(true);
 
@@ -71,9 +70,10 @@ function MatchList(props: { currentTheme?: ThemeConfig }) {
 	);
 }
 
-ReactDOM.render(
+const container = document.getElementById("app");
+const root = createRoot(container!); // createRoot(container!) if you use TypeScript
+root.render(
 	<Wrapper>
-		<MatchList />
-	</Wrapper>,
-	document.getElementById("root")
+		<MatchScoreOverlay />
+	</Wrapper>
 );

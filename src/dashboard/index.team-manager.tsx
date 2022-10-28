@@ -32,7 +32,6 @@ import { useOnlyReplicantValue, useReplicantValue } from "common/useReplicant";
 import { Wrapper } from "common/Wrapper";
 import { MuiColorInput } from "mui-color-input";
 import React, { useState } from "react";
-import ReactDOM from "react-dom";
 import { RosteredPlayer } from "./components/RosteredPlayer";
 import TabPanel, { tabProps } from "./components/TabPanel";
 
@@ -543,9 +542,11 @@ function TeamManager() {
 	);
 }
 
-ReactDOM.render(
+import { createRoot } from "react-dom/client";
+const container = document.getElementById("app");
+const root = createRoot(container!); // createRoot(container!) if you use TypeScript
+root.render(
 	<Wrapper isDashboard={true} cssInject={{ padding: "16px" }}>
 		<TeamManager />
-	</Wrapper>,
-	document.getElementById("root")
+	</Wrapper>
 );

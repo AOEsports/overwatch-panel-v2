@@ -731,9 +731,11 @@ function MapManager() {
 	);
 }
 
-ReactDOM.render(
+import { createRoot } from "react-dom/client";
+const container = document.getElementById("app");
+const root = createRoot(container!); // createRoot(container!) if you use TypeScript
+root.render(
 	<Wrapper isDashboard={true} cssInject={{ padding: "16px" }}>
 		<MapManager />
-	</Wrapper>,
-	document.getElementById("root")
+	</Wrapper>
 );

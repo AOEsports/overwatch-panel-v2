@@ -4,8 +4,8 @@ import { Team } from "common/types/Team";
 import { ThemeConfig } from "common/types/ThemeConfig";
 import { Wrapper } from "common/Wrapper";
 import { useEffect, useState } from "react";
-import ReactDOM from "react-dom";
 import { RosterDisplay } from "./components/RosterDisplay";
+import { createRoot } from "react-dom/client";
 
 function pullHeroData(method: Function) {
 	return fetch("../assets/data/heroes.json")
@@ -19,7 +19,7 @@ function pullHeroData(method: Function) {
 		});
 }
 
-function Graphics(props: { currentTheme?: ThemeConfig }) {
+function TeamRosterOverlay(props: { currentTheme?: ThemeConfig }) {
 	const [displayData, setDisplayData] = useState({
 		shown: false,
 		team: { team1: null, team2: null },
@@ -56,7 +56,6 @@ function Graphics(props: { currentTheme?: ThemeConfig }) {
 				}, 2000);
 			}
 		});
-		return nodecg.unlisten("displayRoster", () => {});
 	}, [isDisplayed, imagesCached, heroData]);
 	if (!imagesCached) return <></>;
 
@@ -286,10 +285,10 @@ function Graphics(props: { currentTheme?: ThemeConfig }) {
 		</>
 	);
 }
-
-ReactDOM.render(
+const container = document.getElementById("app");
+const root = createRoot(container!); // createRoot(container!) if you use TypeScript
+root.render(
 	<Wrapper>
-		<Graphics />
-	</Wrapper>,
-	document.getElementById("root")
+		<TeamRosterOverlay />
+	</Wrapper>
 );
