@@ -1,4 +1,5 @@
 import AddIcon from "@mui/icons-material/Add";
+import DeleteIcon from "@mui/icons-material/Delete";
 import SaveIcon from "@mui/icons-material/Save";
 import SyncIcon from "@mui/icons-material/Sync";
 import SyncDisabledIcon from "@mui/icons-material/SyncDisabled";
@@ -21,11 +22,10 @@ import Checkbox from "@mui/material/Checkbox";
 import FormControl from "@mui/material/FormControl";
 import { getCurrentMatchWithTeamsAsState } from "common/Helper";
 import { MapSelection } from "common/types/MapSelection";
+import { CurrentMatchCache } from "common/types/replicants/CurrentMatchCache";
 import { Team } from "common/types/Team";
 import { Wrapper } from "common/Wrapper";
 import { useEffect, useState } from "react";
-import ReactDOM from "react-dom";
-import DeleteIcon from "@mui/icons-material/Delete";
 
 function pullMapData(method: Function) {
 	return fetch("../assets/data/maps.json")
@@ -367,9 +367,8 @@ function MapManager() {
 		getWindowDimensions()
 	);
 
-	const { state, updateState } = getCurrentMatchWithTeamsAsState();
+	const [state, updateState] = getCurrentMatchWithTeamsAsState();
 	const [mapData, setMapData] = useState() as [any, Function];
-	const { team1, team2, currentMatch } = state;
 	const [selectedMapIndex, setSelectedMapIndex] = useState(-1) as [
 		number,
 		Function
@@ -385,29 +384,13 @@ function MapManager() {
 		return () => window.removeEventListener("resize", handleResize);
 	}, []);
 
-	if (!state) return <></>;
+	if (!state) return <>Hi :)</>;
+
+	const { team1, team2, currentMatch } = state;
 	if (!mapData) pullMapData(setMapData);
-	function updateMap(force?: boolean) {
-		let newTeam1Score = 0;
-		let newTeam2Score = 0;
-		currentMatch.mapLineup?.maps.forEach((map: MapSelection) => {
-			if (map.completed) {
-				if ((map.team1score || 0) > (map.team2score || 0))
-					newTeam1Score++;
-				if ((map.team2score || 0) > (map.team1score || 0))
-					newTeam2Score++;
-			}
-		});
+	function updateMap(updated: CurrentMatchCache, force?: boolean) {
+		updateState({ ...(updated || state) });
 		setTimeout(() => {
-			currentMatch.team1score = newTeam1Score;
-			currentMatch.team2score = newTeam2Score;
-			updateState(
-				{
-					...state,
-					currentMatch,
-				},
-				force || autoUpdate
-			);
 			setKey(Math.random());
 		}, 100);
 	}
@@ -552,11 +535,15 @@ function MapManager() {
 									id="team1Score"
 									readOnly={true}
 									onChange={(e) => {
-										currentMatch.team1score = parseInt(
-											e.target.value
-										);
-
-										updateMap();
+										updateMap({
+											...state,
+											currentMatch: {
+												...currentMatch,
+												team1score: parseInt(
+													e.target.value
+												),
+											},
+										});
 									}}
 									disableUnderline={true}
 									style={{
@@ -587,7 +574,15 @@ function MapManager() {
 										currentMatch.team2score = parseInt(
 											e.target.value
 										);
-										updateMap();
+										updateMap({
+											...state,
+											currentMatch: {
+												...currentMatch,
+												team2score: parseInt(
+													e.target.value
+												),
+											},
+										});
 									}}
 									disableUnderline={true}
 									style={{
@@ -616,9 +611,13 @@ function MapManager() {
 										display: "inline-block",
 									}}
 									onChange={(e) => {
-										currentMatch.completed =
-											e.target.checked;
-										updateMap();
+										updateMap({
+											...state,
+											currentMatch: {
+												...currentMatch,
+												completed: e.target.checked,
+											},
+										});
 									}}
 								/>
 							</div>
@@ -637,7 +636,19 @@ function MapManager() {
 										onChange={(e) => {
 											currentMatch.mapLineup!.scoringType =
 												e.target.value as "ft" | "bo";
-											updateMap();
+											updateMap({
+												...state,
+												currentMatch: {
+													...currentMatch,
+													mapLineup: {
+														...currentMatch.mapLineup,
+														scoringType: e.target
+															.value as
+															| "ft"
+															| "bo",
+													},
+												},
+											});
 										}}
 									>
 										<MenuItem value={"ft"}>
@@ -657,9 +668,19 @@ function MapManager() {
 										}
 										size="small"
 										onChange={(e) => {
-											currentMatch.mapLineup!.scoreaim =
-												parseInt(e.target.value as any);
-											updateMap();
+											updateMap({
+												...state,
+												currentMatch: {
+													...currentMatch,
+													mapLineup: {
+														...currentMatch.mapLineup,
+														scoreaim: parseInt(
+															e.target
+																.value as any
+														),
+													},
+												},
+											});
 										}}
 									>
 										{Array.from(Array(20)).map(
@@ -720,7 +741,7 @@ function MapManager() {
 					/>
 					<BottomNavigationAction
 						onClick={() => {
-							updateMap(true);
+							updateMap({ ...state }, true);
 						}}
 						label={"Send Changes to Overlay"}
 						icon={<SaveIcon />}
