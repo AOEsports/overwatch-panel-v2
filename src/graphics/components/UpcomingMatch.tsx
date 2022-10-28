@@ -88,7 +88,6 @@ function teamSlider(
 		textAlign: "center",
 		overflow: "hidden",
 		textShadow: "4px 4px black",
-		clipPath: CLIPPATH.scoreBox[side],
 	};
 	if (matchData.completed) {
 	}
