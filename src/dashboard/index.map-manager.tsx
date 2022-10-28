@@ -1,5 +1,4 @@
 import AddIcon from "@mui/icons-material/Add";
-import DeleteIcon from "@mui/icons-material/Delete";
 import SaveIcon from "@mui/icons-material/Save";
 import SyncIcon from "@mui/icons-material/Sync";
 import SyncDisabledIcon from "@mui/icons-material/SyncDisabled";
@@ -22,10 +21,11 @@ import Checkbox from "@mui/material/Checkbox";
 import FormControl from "@mui/material/FormControl";
 import { getCurrentMatchWithTeamsAsState } from "common/Helper";
 import { MapSelection } from "common/types/MapSelection";
-import { CurrentMatchCache } from "common/types/replicants/CurrentMatchCache";
 import { Team } from "common/types/Team";
 import { Wrapper } from "common/Wrapper";
 import { useEffect, useState } from "react";
+import ReactDOM from "react-dom";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 function pullMapData(method: Function) {
 	return fetch("../assets/data/maps.json")
@@ -351,7 +351,6 @@ function mapEditor(
 							display: "inline-block",
 						}}
 						onChange={(e) => {
-							console.log(`changed`, e.target.checked);
 							mapInformation.completed = e.target.checked;
 							updateMap();
 						}}
@@ -367,8 +366,9 @@ function MapManager() {
 		getWindowDimensions()
 	);
 
-	const [state, updateState] = getCurrentMatchWithTeamsAsState();
+	const { state, updateState } = getCurrentMatchWithTeamsAsState();
 	const [mapData, setMapData] = useState() as [any, Function];
+	const { team1, team2, currentMatch } = state;
 	const [selectedMapIndex, setSelectedMapIndex] = useState(-1) as [
 		number,
 		Function
@@ -384,13 +384,17 @@ function MapManager() {
 		return () => window.removeEventListener("resize", handleResize);
 	}, []);
 
-	if (!state) return <>Hi :)</>;
-
-	const { team1, team2, currentMatch } = state;
+	if (!state) return <></>;
 	if (!mapData) pullMapData(setMapData);
-	function updateMap(updated: CurrentMatchCache, force?: boolean) {
-		updateState({ ...(updated || state) });
+	function updateMap(force?: boolean) {
 		setTimeout(() => {
+			updateState(
+				{
+					...state,
+					currentMatch,
+				},
+				force || autoUpdate
+			);
 			setKey(Math.random());
 		}, 100);
 	}
@@ -459,6 +463,13 @@ function MapManager() {
 								variant="contained"
 								style={{ width: "50%" }}
 								onClick={() => {
+									if (
+										currentMatch.mapLineup!.maps.length >= 9
+									) {
+										return alert(
+											"A maximum of 9 maps can be added. Anymore and UIs break :)"
+										);
+									}
 									const newDefaultMap: MapSelection = {
 										mapName: "Upcoming",
 										mapGamemode: "Upcoming",
@@ -472,7 +483,7 @@ function MapManager() {
 										newDefaultMap
 									);
 									setSelectedMapIndex(
-										currentMatch.mapLineup!.maps.length - 1
+										currentMatch.mapLineup!.maps.length
 									);
 
 									setTimeout(
@@ -489,10 +500,13 @@ function MapManager() {
 								style={{ width: "50%" }}
 								disabled={selectedMapIndex == -1}
 								onClick={() => {
-									setTimeout(
-										() => setKey(Math.random()),
-										100
-									);
+									setTimeout(() => {
+										currentMatch.mapLineup!.maps.splice(
+											selectedMapIndex,
+											1
+										);
+										setKey(Math.random());
+									}, 100);
 								}}
 							>
 								<DeleteIcon />
@@ -535,15 +549,11 @@ function MapManager() {
 									id="team1Score"
 									readOnly={true}
 									onChange={(e) => {
-										updateMap({
-											...state,
-											currentMatch: {
-												...currentMatch,
-												team1score: parseInt(
-													e.target.value
-												),
-											},
-										});
+										currentMatch.team1score = parseInt(
+											e.target.value
+										);
+
+										updateMap();
 									}}
 									disableUnderline={true}
 									style={{
@@ -574,15 +584,7 @@ function MapManager() {
 										currentMatch.team2score = parseInt(
 											e.target.value
 										);
-										updateMap({
-											...state,
-											currentMatch: {
-												...currentMatch,
-												team2score: parseInt(
-													e.target.value
-												),
-											},
-										});
+										updateMap();
 									}}
 									disableUnderline={true}
 									style={{
@@ -611,13 +613,9 @@ function MapManager() {
 										display: "inline-block",
 									}}
 									onChange={(e) => {
-										updateMap({
-											...state,
-											currentMatch: {
-												...currentMatch,
-												completed: e.target.checked,
-											},
-										});
+										currentMatch.completed =
+											e.target.checked;
+										updateMap();
 									}}
 								/>
 							</div>
@@ -636,19 +634,7 @@ function MapManager() {
 										onChange={(e) => {
 											currentMatch.mapLineup!.scoringType =
 												e.target.value as "ft" | "bo";
-											updateMap({
-												...state,
-												currentMatch: {
-													...currentMatch,
-													mapLineup: {
-														...currentMatch.mapLineup,
-														scoringType: e.target
-															.value as
-															| "ft"
-															| "bo",
-													},
-												},
-											});
+											updateMap();
 										}}
 									>
 										<MenuItem value={"ft"}>
@@ -668,19 +654,9 @@ function MapManager() {
 										}
 										size="small"
 										onChange={(e) => {
-											updateMap({
-												...state,
-												currentMatch: {
-													...currentMatch,
-													mapLineup: {
-														...currentMatch.mapLineup,
-														scoreaim: parseInt(
-															e.target
-																.value as any
-														),
-													},
-												},
-											});
+											currentMatch.mapLineup!.scoreaim =
+												parseInt(e.target.value as any);
+											updateMap();
 										}}
 									>
 										{Array.from(Array(20)).map(
@@ -741,7 +717,7 @@ function MapManager() {
 					/>
 					<BottomNavigationAction
 						onClick={() => {
-							updateMap({ ...state }, true);
+							updateMap(true);
 						}}
 						label={"Send Changes to Overlay"}
 						icon={<SaveIcon />}

@@ -90,6 +90,55 @@ function teamSlider(
 		textShadow: "4px 4px black",
 	};
 	if (matchData.completed) {
+		return (
+			<div
+				style={{
+					clipPath: CLIPPATH.primaryDiv[side],
+					marginTop: "0px",
+					marginBottom: "0px",
+					paddingTop: "0px",
+				}}
+			>
+				<Slide
+					direction={side}
+					in={true}
+					mountOnEnter
+					timeout={1700 + index * 250}
+					easing="ease-in-out"
+				>
+					<div
+						style={{
+							...topLevelDivStyle,
+							...(side == "left"
+								? {
+										borderLeft: `8px solid ${
+											theme?.Colors?.Match
+												.CompletedMatchBorder ||
+											"#ED6516"
+										}`,
+								  }
+								: {
+										borderRight: `8px solid ${
+											theme?.Colors?.Match
+												.CompletedMatchBorder ||
+											"#ED6516"
+										}`,
+								  }),
+						}}
+					>
+						<img
+							src={team.icons?.teamIcon}
+							alt=""
+							style={logoStyle as CSSProperties}
+						/>
+						<h1 style={teamNameStyle as CSSProperties}>
+							{team.name}
+						</h1>
+						<h1 style={scoreStyle as CSSProperties}>{teamScore}</h1>
+					</div>
+				</Slide>
+			</div>
+		);
 	}
 	if (isCurrent) {
 		return (
