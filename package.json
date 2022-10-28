@@ -93,6 +93,11 @@
 				"file": "teamtransition.html",
 				"width": 1920,
 				"height": 1080
+			},
+			{
+				"file": "cameracurtains.html",
+				"width": 1920,
+				"height": 1080
 			}
 		]
 	},
