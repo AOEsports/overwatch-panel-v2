@@ -33,7 +33,7 @@ export function getCurrentMatchWithTeamsAsState(): CurrentMatchData {
 			defaultValue: {
 				currentMatchId: 0,
 				nextMatchId: 0,
-				nextTeamId: 0,
+				nextTeamId: 1,
 				randomisationKey: 0,
 			} as DataStorage,
 		}

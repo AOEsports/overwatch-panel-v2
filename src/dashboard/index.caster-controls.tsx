@@ -19,7 +19,7 @@ function Dashboard() {
 			defaultValue: {
 				currentMatchId: 0,
 				nextMatchId: 0,
-				nextTeamId: 0,
+				nextTeamId: 1,
 				textDataStorage: [],
 				casterInformation: [],
 			} as DataStorage,

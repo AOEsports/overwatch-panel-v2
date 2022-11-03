@@ -61,7 +61,7 @@ function TeamManager() {
 			defaultValue: {
 				currentMatchId: 0,
 				nextMatchId: 0,
-				nextTeamId: 0,
+				nextTeamId: 1,
 			} as DataStorage,
 		}
 	) as [DataStorage, Function];
