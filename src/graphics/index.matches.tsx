@@ -68,7 +68,8 @@ function MatchList(props: { currentTheme?: ThemeConfig }) {
 								textShadow: "4px 4px black",
 							}}
 						>
-							AAOL Season 15 - Week 1
+							{dataStorage.streamTitle ||
+								"AAOL Season 15 - Week 1"}
 						</Typography>
 					</Slide>
 				</div>

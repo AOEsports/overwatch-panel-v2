@@ -5,6 +5,7 @@ interface CameraBoxProps {
 	name: String;
 	id: number;
 	icon: "twitter" | "discord" | "instagram" | "twitch";
+	pronouns: string;
 }
 
 export default function CameraBox(props: CameraBoxProps) {

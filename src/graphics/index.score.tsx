@@ -16,7 +16,6 @@ function MatchScoreOverlay(props: { currentTheme?: ThemeConfig }) {
 		nodecg.listenFor("displayScores", (data: { displayed: boolean }) => {
 			setDisplayedState(data.displayed);
 		});
-		return nodecg.unlisten("displayScores", () => {});
 	}, [displayed]);
 
 	if (!state) return <></>;

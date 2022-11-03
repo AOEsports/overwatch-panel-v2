@@ -1,4 +1,5 @@
 import AddIcon from "@mui/icons-material/Add";
+import DeleteIcon from "@mui/icons-material/Delete";
 import SaveIcon from "@mui/icons-material/Save";
 import SyncIcon from "@mui/icons-material/Sync";
 import SyncDisabledIcon from "@mui/icons-material/SyncDisabled";
@@ -24,8 +25,6 @@ import { MapSelection } from "common/types/MapSelection";
 import { Team } from "common/types/Team";
 import { Wrapper } from "common/Wrapper";
 import { useEffect, useState } from "react";
-import ReactDOM from "react-dom";
-import DeleteIcon from "@mui/icons-material/Delete";
 
 function pullMapData(method: Function) {
 	return fetch("../assets/data/maps.json")

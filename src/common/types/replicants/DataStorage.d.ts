@@ -20,4 +20,11 @@ export interface DataStorage {
 	nextTeamId: number;
 	streamTitle?: string;
 	randomisationKey?: number;
+	textDataStorage?: array;
+	imageDataStorage?: array;
+	casterInformation?: array;
+	icons?: {
+		overwatchLogoUrl: string;
+		tournamentLogoUrl: string;
+	};
 }

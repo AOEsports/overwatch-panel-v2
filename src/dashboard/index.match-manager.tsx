@@ -1,11 +1,19 @@
 import AddIcon from "@mui/icons-material/Add";
 import HideSourceIcon from "@mui/icons-material/HideSource";
 import SaveIcon from "@mui/icons-material/Save";
+import EditIcon from "@mui/icons-material/Edit";
 import {
 	BottomNavigation,
 	BottomNavigationAction,
+	Box,
+	Button,
+	ButtonGroup,
 	CircularProgress,
+	Dialog,
+	SelectChangeEvent,
 	Stack,
+	TextField,
+	Typography,
 } from "@mui/material";
 import { MatchData } from "common/types/MatchData";
 import { DataStorage } from "common/types/replicants/DataStorage";
@@ -41,11 +49,17 @@ function MatchManager() {
 			} as DataStorage,
 		}
 	) as [DataStorage, Function];
+	if (!dataStorage.icons)
+		dataStorage.icons = { overwatchLogoUrl: "", tournamentLogoUrl: "" };
 
 	const [hideCompleted, setHideCompleted] = useState(false) as [
 		boolean,
 		Function
 	];
+	const [editingMatchInformation, setEditingMatchInformation] =
+		useState(false);
+
+	const themeIcons = useOnlyReplicantValue<object>("assets:theme") as object;
 	if (!teams || !matches)
 		return (
 			<>
@@ -140,13 +154,98 @@ function MatchManager() {
 						label={"Send Changes to Overlay"}
 						icon={<SaveIcon />}
 					/>
+					<BottomNavigationAction
+						onClick={() => {
+							setEditingMatchInformation(true);
+						}}
+						label={"Edit Match Information"}
+						icon={<EditIcon />}
+					/>
 				</BottomNavigation>
 			</div>
+			<Dialog
+				open={editingMatchInformation}
+				onClose={() => setEditingMatchInformation(false)}
+				aria-labelledby="modal-modal-title"
+			>
+				<Box
+					sx={{
+						width: 600,
+						padding: "32px",
+						overflowX: "hidden",
+					}}
+				>
+					<Typography
+						id="modal-modal-title"
+						variant="h6"
+						component="h2"
+						paddingBottom={"8px"}
+					>
+						Match Information
+					</Typography>
+					<Stack spacing={8}>
+						<div style={{ paddingBottom: "16px" }}>
+							<TextField
+								id="text"
+								label="Stream Title"
+								variant="outlined"
+								style={{ width: "100%" }}
+								onChange={(e) =>
+									(dataStorage.streamTitle = e.target.value)
+								}
+								defaultValue={
+									dataStorage.streamTitle ||
+									"AAOL Season 15 - Week 1"
+								}
+							/>
+						</div>
+						<div style={{ paddingBottom: "16px" }}>
+							<AssetSelectorDropdown
+								assets={themeIcons}
+								size="medium"
+								onChange={(icon, url) => {
+									dataStorage.icons!.overwatchLogoUrl =
+										icon.url;
+								}}
+								label={"Select Overwatch Logo"}
+								defaultValue={
+									dataStorage.icons.overwatchLogoUrl
+								}
+							/>
+						</div>
+						<div>
+							<AssetSelectorDropdown
+								assets={themeIcons}
+								size="medium"
+								onChange={(icon, url) => {
+									dataStorage.icons!.tournamentLogoUrl =
+										icon.url;
+								}}
+								label={"Select Tournament Logo"}
+								defaultValue={
+									dataStorage.icons.tournamentLogoUrl
+								}
+							/>
+						</div>
+					</Stack>
+				</Box>
+				<ButtonGroup variant="contained">
+					<Button
+						color="secondary"
+						variant="contained"
+						onClick={() => setEditingMatchInformation(false)}
+						style={{ width: "100%" }}
+					>
+						Close
+					</Button>
+				</ButtonGroup>
+			</Dialog>
 		</>
 	);
 }
 
 import { createRoot } from "react-dom/client";
+import AssetSelectorDropdown from "./components/AssetSelectorDropdown";
 const container = document.getElementById("app");
 const root = createRoot(container!); // createRoot(container!) if you use TypeScript
 root.render(
