@@ -19,8 +19,11 @@ function TeamTransition(props: { currentTheme?: ThemeConfig }) {
 				flexDirection: "row",
 				flexWrap: "wrap",
 				alignItems: "center",
+				alignContent: "center",
 				justifyContent: "center",
 				textAlign: "center",
+				verticalAlign: "middle",
+				height: "1080px",
 			}}
 		>
 			{Array.from(Array(amount)).map((i: any, ind: number) => (
