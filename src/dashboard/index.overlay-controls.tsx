@@ -80,7 +80,7 @@ function Dashboard() {
 						</Button>
 					</ButtonGroup>
 				</Grid>
-				<Grid item lg={2}>
+				{/* <Grid item lg={2}>
 					<h3 style={{ minWidth: "100%" }}>Lower Third</h3>
 					<ButtonGroup disableElevation>
 						<Button
@@ -98,7 +98,7 @@ function Dashboard() {
 							Hide
 						</Button>
 					</ButtonGroup>
-				</Grid>
+				</Grid> */}
 				<Grid item lg={1}>
 					<h3 style={{ minWidth: "100%" }}>Team Roster Display</h3>
 					<Stack direction="row" spacing={2}>
@@ -186,7 +186,7 @@ function Dashboard() {
 						</ButtonGroup>
 					</Stack>
 				</Grid>
-				<Grid item lg={1}>
+				{/* <Grid item lg={1}>
 					<h3 style={{ minWidth: "100%" }}>Team Transition</h3>
 					<Stack direction="row" spacing={2}>
 						<TeamSelectorDropdown
@@ -227,7 +227,7 @@ function Dashboard() {
 							</Button>
 						</ButtonGroup>
 					</Stack>
-				</Grid>
+				</Grid> */}
 			</Grid>
 		</>
 	);

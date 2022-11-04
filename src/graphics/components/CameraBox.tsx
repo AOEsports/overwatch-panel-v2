@@ -9,7 +9,7 @@ interface CameraBoxProps {
 }
 
 export default function CameraBox(props: CameraBoxProps) {
-	const { name, id, icon } = props;
+	const { name, id, icon, pronouns } = props;
 
 	const curtainDiv = (
 		<div
@@ -80,6 +80,19 @@ export default function CameraBox(props: CameraBoxProps) {
 				}}
 			>
 				{name}
+
+				<span
+					style={{
+						color: "white",
+						fontSize: "2.5rem",
+						fontStyle: "italic",
+						zIndex: 1,
+						display: "inline-block",
+						paddingLeft: "64px",
+					}}
+				>
+					{pronouns}
+				</span>
 			</div>
 		</div>
 	);
