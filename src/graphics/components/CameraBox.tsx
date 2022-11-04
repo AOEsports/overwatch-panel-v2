@@ -1,11 +1,33 @@
 import { Slide } from "@mui/material";
 import { useEffect, useState } from "react";
+import { Icon } from "@iconify/react";
 
 interface CameraBoxProps {
 	name: String;
 	id: number;
 	icon: "twitter" | "discord" | "instagram" | "twitch";
 	pronouns: string;
+}
+
+function iconToSvg(icon: "twitter" | "discord" | "instagram" | "twitch") {
+	if (icon == "twitter") {
+		return (
+			<Icon icon="simple-icons:twitter" style={{ color: "#1DA1F2" }} />
+		);
+	}
+	if (icon == "discord") {
+		return (
+			<Icon icon="simple-icons:discord" style={{ color: "#5865F2" }} />
+		);
+	}
+	if (icon == "twitch") {
+		return <Icon icon="simple-icons:twitch" style={{ color: "#9146FF" }} />;
+	}
+	if (icon == "instagram") {
+		return (
+			<Icon icon="simple-icons:instagram" style={{ color: "#E4405F" }} />
+		);
+	}
 }
 
 export default function CameraBox(props: CameraBoxProps) {
@@ -79,6 +101,16 @@ export default function CameraBox(props: CameraBoxProps) {
 					fontSize: "2.5rem",
 				}}
 			>
+				<span
+					style={{
+						color: "white",
+						fontSize: "2.5rem",
+						paddingRight: "8px",
+					}}
+				>
+					{iconToSvg(icon)}
+				</span>
+
 				{name}
 
 				<span
