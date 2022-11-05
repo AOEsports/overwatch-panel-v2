@@ -256,6 +256,7 @@ export function UpcomingMatch(props: UpcomingMatchProps) {
 					marginTop: "0px",
 					marginBottom: "0px",
 					paddingTop: "0px",
+					flexGrow: 1,
 				}}
 			>
 				<div

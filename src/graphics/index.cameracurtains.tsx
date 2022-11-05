@@ -32,18 +32,18 @@ function TeamTransition(props: { currentTheme?: ThemeConfig }) {
 				<CameraBox
 					name={
 						dataStorage.casterInformation[
-							indexOverride > -1 ? ind : indexOverride
+							indexOverride == -1 ? ind : indexOverride
 						].name
 					}
-					id={indexOverride > -1 ? ind : indexOverride}
+					id={indexOverride == -1 ? ind : indexOverride}
 					icon={
 						dataStorage.casterInformation[
-							indexOverride > -1 ? ind : indexOverride
+							indexOverride == -1 ? ind : indexOverride
 						].icon
 					}
 					pronouns={
 						dataStorage.casterInformation[
-							indexOverride > -1 ? ind : indexOverride
+							indexOverride == -1 ? ind : indexOverride
 						].pronouns
 					}
 				/>
