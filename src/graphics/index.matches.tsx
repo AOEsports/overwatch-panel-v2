@@ -73,18 +73,20 @@ function MatchList(props: { currentTheme?: ThemeConfig }) {
 						</Typography>
 					</Slide>
 				</div>
-				{shownMatches.map((match: MatchData, index: number) => (
-					<UpcomingMatch
-						index={index}
-						displayed={true}
-						currentMatch={
-							dataStorage.currentMatchId == match.matchId
-						}
-						matchData={match}
-						teams={teams}
-						theme={props.currentTheme}
-					/>
-				))}
+				<div style={{ flexGrow: 1 }}>
+					{shownMatches.map((match: MatchData, index: number) => (
+						<UpcomingMatch
+							index={index}
+							displayed={true}
+							currentMatch={
+								dataStorage.currentMatchId == match.matchId
+							}
+							matchData={match}
+							teams={teams}
+							theme={props.currentTheme}
+						/>
+					))}
+				</div>
 			</Stack>
 		</>
 	);

@@ -10,7 +10,9 @@ function TeamTransition(props: { currentTheme?: ThemeConfig }) {
 	if (!dataStorage) return <></>;
 	const queryString = window.location.search;
 	const urlParams = new URLSearchParams(queryString);
-	const amount = parseInt(urlParams.get("amount") || "1") || 1;
+	let amount = parseInt(urlParams.get("amount") || "1") || 1;
+	const indexOverride = parseInt(urlParams.get("index") || "-1") || -1;
+	if (indexOverride > -1) amount = 1;
 	console.log(dataStorage);
 	return (
 		<div
@@ -28,10 +30,22 @@ function TeamTransition(props: { currentTheme?: ThemeConfig }) {
 		>
 			{Array.from(Array(amount)).map((i: any, ind: number) => (
 				<CameraBox
-					name={dataStorage.casterInformation[ind].name}
-					id={ind}
-					icon={dataStorage.casterInformation[ind].icon}
-					pronouns={dataStorage.casterInformation[ind].pronouns}
+					name={
+						dataStorage.casterInformation[
+							indexOverride > -1 ? ind : indexOverride
+						].name
+					}
+					id={indexOverride > -1 ? ind : indexOverride}
+					icon={
+						dataStorage.casterInformation[
+							indexOverride > -1 ? ind : indexOverride
+						].icon
+					}
+					pronouns={
+						dataStorage.casterInformation[
+							indexOverride > -1 ? ind : indexOverride
+						].pronouns
+					}
 				/>
 			))}
 		</div>

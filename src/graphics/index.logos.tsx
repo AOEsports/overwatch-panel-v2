@@ -6,8 +6,8 @@ import { Wrapper } from "common/Wrapper";
 import { createRoot } from "react-dom/client";
 
 const LOGO_STYLE = {
-	maxWidth: "164px",
-	maxHeight: "164px",
+	maxWidth: "128px",
+	maxHeight: "128px",
 	objectFit: "contain" as any,
 };
 
