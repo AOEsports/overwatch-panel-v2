@@ -55,7 +55,7 @@ export function TeamScore(props: TeamScoreProps) {
 						direction={OPPOSITE[props.side] as any}
 						in={props.displayed}
 						mountOnEnter
-						timeout={1500}
+						timeout={2500}
 						easing="ease-in-out"
 					>
 						{props.side == "left" ? (

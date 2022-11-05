@@ -18,7 +18,7 @@ export function ScoreboardMiddleBox(props: {
 			direction="down"
 			in={props.displayed}
 			mountOnEnter
-			timeout={1000}
+			timeout={2000}
 			easing="ease-in-out"
 		>
 			<div

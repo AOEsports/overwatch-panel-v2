@@ -103,7 +103,7 @@ function teamSlider(
 					direction={side}
 					in={true}
 					mountOnEnter
-					timeout={1700 + index * 250}
+					timeout={2700 + index * 250}
 					easing="ease-in-out"
 				>
 					<div
@@ -154,7 +154,7 @@ function teamSlider(
 					direction={side}
 					in={true}
 					mountOnEnter
-					timeout={1700 + index * 250}
+					timeout={2700 + index * 250}
 					easing="ease-in-out"
 				>
 					<div
@@ -202,7 +202,7 @@ function teamSlider(
 				direction={side}
 				in={true}
 				mountOnEnter
-				timeout={1700 + index * 250}
+				timeout={2700 + index * 250}
 				easing="ease-in-out"
 			>
 				<div
@@ -268,7 +268,7 @@ export function UpcomingMatch(props: UpcomingMatchProps) {
 						direction={"up"}
 						in={true}
 						mountOnEnter
-						timeout={700 + props.index * 250}
+						timeout={1700 + props.index * 250}
 						easing="ease-in-out"
 					>
 						<h3
@@ -303,7 +303,7 @@ export function UpcomingMatch(props: UpcomingMatchProps) {
 					<Fade
 						in={true}
 						mountOnEnter
-						timeout={700 + props.index * 250}
+						timeout={1700 + props.index * 250}
 						easing="ease-in-out"
 					>
 						<h1

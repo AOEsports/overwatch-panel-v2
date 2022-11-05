@@ -49,7 +49,7 @@ export default function CameraBox(props: CameraBoxProps) {
 		if (control.in)
 			setTimeout(() => {
 				setControl({ in: false, timeout: 1500 });
-			}, 1000);
+			}, 2500);
 		return () => {};
 	}, [control]);
 

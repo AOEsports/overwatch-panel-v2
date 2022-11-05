@@ -74,7 +74,7 @@ export function MapDisplay(props: MapDisplayProps) {
 				direction={"up"}
 				in={props.displayed}
 				mountOnEnter
-				timeout={1000 + props.index * 250}
+				timeout={2500 + props.index * 250}
 				onTransitionEnd={() => {
 					console.log(`marking map to be shown`);
 					setShowMap(true);
@@ -138,7 +138,7 @@ export function MapDisplay(props: MapDisplayProps) {
 							appear={props.displayed && showMap}
 							style={!showMap ? { display: "none" } : {}}
 							mountOnEnter
-							timeout={1000}
+							timeout={2500}
 							easing="ease-in-out"
 						>
 							<div
