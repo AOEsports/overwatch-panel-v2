@@ -77,6 +77,7 @@ function MatchList(props: { currentTheme?: ThemeConfig }) {
 					style={{
 						display: "flex",
 						height: "820px",
+						flexDirection: "column",
 					}}
 				>
 					{shownMatches.map((match: MatchData, index: number) => (
