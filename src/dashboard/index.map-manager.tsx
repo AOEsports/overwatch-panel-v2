@@ -408,7 +408,13 @@ function MapManager() {
 				}}
 			>
 				<Typography
-					variant={windowDimensions.width <= 550 ? "subtitle1" : "h4"}
+					variant={
+						windowDimensions.width <= 550 ||
+						team1.name.length > 15 ||
+						team2.name.length > 15
+							? "subtitle1"
+							: "h4"
+					}
 				>
 					{team1.name.length < 15
 						? team1.name
