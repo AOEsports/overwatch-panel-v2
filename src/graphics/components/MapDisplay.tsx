@@ -61,8 +61,7 @@ export function MapDisplay(props: MapDisplayProps) {
 			(props.mapSelection.team2score || 0)
 		) {
 			winner = DrawnTeam;
-		}
-		if (
+		} else if (
 			(props.mapSelection.team1score || 0) >
 			(props.mapSelection.team2score || 0)
 		)
