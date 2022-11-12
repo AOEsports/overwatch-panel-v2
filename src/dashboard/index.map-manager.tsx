@@ -410,7 +410,13 @@ function MapManager() {
 				<Typography
 					variant={windowDimensions.width <= 550 ? "subtitle1" : "h4"}
 				>
-					{team1.name.length < 15 ? team1.name : team1.name.substring(0, 15)} vs {team2.name.length < 15 ? team2.name : team2.name.substring(0, 15}
+					{team1.name.length < 15
+						? team1.name
+						: team1.name.substring(0, 15)}{" "}
+					vs{" "}
+					{team2.name.length < 15
+						? team2.name
+						: team2.name.substring(0, 15)}
 				</Typography>
 				<Stack
 					spacing={4}
